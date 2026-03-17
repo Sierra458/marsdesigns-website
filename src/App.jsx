@@ -102,7 +102,7 @@ export default function MARSDesignsWebsite() {
     }
     setFormStatus("sending");
     try {
-      await fetch("https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec", {
+      await fetch("https://script.google.com/a/macros/marsdesigns.io/s/AKfycbxjxObDTkAlqN5p6KOtk3E00VwMj6N5akKLydmZ2Yphqa4Fnv16rv22aBjt3Z1tJESZ/exec", {
         method: "POST", mode: "no-cors",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...formState, timestamp: new Date().toISOString() })
