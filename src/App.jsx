@@ -33,9 +33,10 @@ function FadeIn({ children, delay = 0, style = {} }) {
 }
 
 function Logo({ size = 28 }) {
+  const hexSize = size * 1.3;
   return (
     <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-      <svg width={size * 1.3} height={size * 1.3} viewBox="0 0 64 64">
+      <svg width={hexSize} height={hexSize} viewBox="0 0 64 64">
         <path d="M32 2 L58.8 17 L58.8 47 L32 62 L5.2 47 L5.2 17 Z" fill="none" stroke={ACCENT} strokeWidth="2.2"/>
         <path d="M32 2 L58.8 17 L58.8 47 L32 62 L5.2 47 L5.2 17 Z" fill={ACCENT} opacity="0.05"/>
         <path d="M32 6 L55.6 19.5 L55.6 44.5 L32 58 L8.4 44.5 L8.4 19.5 Z" fill="none" stroke={ACCENT} strokeWidth="0.5" opacity="0.3"/>
@@ -46,10 +47,11 @@ function Logo({ size = 28 }) {
         <circle cx="44" cy="18" r="3" fill={ACCENT2} opacity="0.7"/>
         <circle cx="18" cy="46" r="2" fill={ACCENT2} opacity="0.4"/>
       </svg>
-      <div>
-        <div style={{ fontSize: size * 0.7, fontWeight: 700, color: "#FFF", letterSpacing: 4, fontFamily: "'Orbitron', sans-serif", lineHeight: 1 }}>MARS</div>
-        <div style={{ fontSize: size * 0.4, color: ACCENT, letterSpacing: 6, fontFamily: "'Rajdhani', sans-serif", fontWeight: 500, lineHeight: 1.2 }}>DESIGNS</div>
-      </div>
+      <img
+        src="/mars-designs-wordmark.png"
+        alt="MARS Designs"
+        style={{ height: hexSize, width: "auto", display: "block" }}
+      />
     </div>
   );
 }
