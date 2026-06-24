@@ -204,10 +204,10 @@ export default function MARSDesignsWebsite() {
       {/* HERO */}
       <section id="home" style={{ minHeight: "90vh", display: "flex", alignItems: "center", position: "relative", overflow: "hidden" }}>
         <div style={{ position: "absolute", inset: 0, background: `radial-gradient(ellipse at 20% 50%, ${ACCENT}05 0%, transparent 60%)` }} />
-        <div style={{ position: "absolute", top: "10%", right: "5%", width: 400, height: 400, border: `1px solid ${ACCENT}08`, borderRadius: "50%", animation: "spin 60s linear infinite" }}>
+        <div style={{ position: "absolute", top: "10%", right: "5%", width: 400, height: 400, border: `1px solid ${ACCENT}1A`, borderRadius: "50%", animation: "spin 60s linear infinite" }}>
           <div style={{ position: "absolute", top: -4, left: "50%", width: 8, height: 8, borderRadius: "50%", background: ACCENT, transform: "translateX(-50%)" }} />
         </div>
-        <div style={{ position: "absolute", top: "25%", right: "12%", width: 250, height: 250, border: `1px solid ${ACCENT}06`, borderRadius: "50%" }} />
+        <div style={{ position: "absolute", top: "calc(10% + 75px)", right: "calc(5% + 75px)", width: 250, height: 250, border: `1px solid ${ACCENT}12`, borderRadius: "50%" }} />
         <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 24px", position: "relative", zIndex: 1 }}>
           <FadeIn><div style={{ fontSize: 12, color: ACCENT, letterSpacing: 8, marginBottom: 24, fontWeight: 300 }}>BASED IN TEXAS. AVAILABLE EVERYWHERE.</div></FadeIn>
           <FadeIn delay={0.15}><h1 style={{ fontSize: 56, fontFamily: "'Orbitron', sans-serif", fontWeight: 900, color: "#FFF", margin: "0 0 16px", lineHeight: 1.1, letterSpacing: 2, maxWidth: 700 }}>AI THAT WORKS<br/><span style={{ color: ACCENT }}>FOR YOUR BUSINESS</span></h1></FadeIn>
