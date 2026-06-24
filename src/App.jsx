@@ -127,9 +127,9 @@ export default function MARSDesignsWebsite() {
   ];
 
   const pricingTiers = [
-    { name: "LAUNCHPAD", price: "$2,000 - $5,000", period: "one-time", desc: "Get set up right from day one", features: ["AI account setup & configuration", "Hardware assessment & recommendations", "5 custom AI skills included", "Tool orientation & training", "Quick-start prompt library", "GitHub repository setup", "Sandbox testing environment", "30-day post-launch support"], highlight: false },
-    { name: "RETAINER", price: "$458", period: "/month", desc: "Ongoing optimization, AEO & support", features: ["Monthly performance reviews", "Prompt & agent updates", "AEO monitoring & citation reports", "GitHub maintenance & backups", "Priority 24hr support", "1-2 new features per quarter", "Staff training as needed", "Workflow optimization"], highlight: true },
-    { name: "AGENTS & AEO", price: "$500+", period: "per project", desc: "Custom agents, multi-agent systems & AI visibility", features: ["Custom AI agents: $500 - $2,500 each", "Multi-agent A2A systems: $2,500 - $5,000", "AEO strategy & setup: $1,500 - $3,000", "Agent-to-agent architecture design", "Full sandbox testing & deployment", "Answer engine content optimization", "AI citation tracking setup", "90-day support window"], highlight: false },
+    { name: "LAUNCHPAD", price: "$3,000 - $5,000", period: "one-time", desc: "Get set up right from day one", features: ["AI account setup & configuration", "Hardware assessment & recommendations", "5 custom AI skills included", "Tool orientation & training", "Quick-start prompt library", "GitHub repository setup", "Sandbox testing environment", "30-day post-launch support"], highlight: false },
+    { name: "RETAINER", price: "$2,500", period: "/month", desc: "Ongoing optimization, AEO & support", features: ["Monthly performance reviews", "Prompt & agent updates", "AEO monitoring & citation reports", "GitHub maintenance & backups", "Priority 24hr support", "1-2 new features per quarter", "Staff training as needed", "Workflow optimization"], highlight: true },
+    { name: "AGENTS & AEO", price: "$2,000+", period: "per project", desc: "Custom agents, multi-agent systems & AI visibility", features: ["AI Agents (single workflow): $2,000+ each", "Custom Agents (multi-system): $5,000 - $15,000", "Multi-agent A2A systems: $10,000+", "AEO strategy & setup: $1,500 - $3,000", "Agent-to-agent architecture design", "Full sandbox testing & deployment", "Answer engine content optimization", "AI citation tracking setup", "90-day support window"], highlight: false },
   ];
 
   const processSteps = [
@@ -290,7 +290,7 @@ export default function MARSDesignsWebsite() {
 
       {/* CUSTOM AGENTS */}
       <section style={{ padding: "100px 24px", maxWidth: 1100, margin: "0 auto" }}>
-        <SectionTitle label="AI Agents" title="CUSTOM AGENT DEVELOPMENT" />
+        <SectionTitle label="AI Agents" title="AI AGENT DEVELOPMENT" />
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 40, alignItems: "start" }}>
           <FadeIn>
             <div>
@@ -316,9 +316,15 @@ export default function MARSDesignsWebsite() {
                 </div>
               ))}
               <ThinLine opacity={0.15} />
-              <div style={{ display: "flex", alignItems: "baseline", gap: 6, marginTop: 16 }}>
-                <span style={{ fontSize: 28, fontFamily: "'Orbitron', sans-serif", fontWeight: 900, color: "#FFF" }}>$500 - $2,500</span>
-                <span style={{ fontSize: 13, color: MUTED }}>per agent</span>
+              <div style={{ marginTop: 16 }}>
+                <div style={{ display: "flex", alignItems: "baseline", gap: 6 }}>
+                  <span style={{ fontSize: 28, fontFamily: "'Orbitron', sans-serif", fontWeight: 900, color: "#FFF" }}>$2,000+</span>
+                  <span style={{ fontSize: 13, color: MUTED }}>per AI agent (single workflow)</span>
+                </div>
+                <div style={{ display: "flex", alignItems: "baseline", gap: 6, marginTop: 8 }}>
+                  <span style={{ fontSize: 28, fontFamily: "'Orbitron', sans-serif", fontWeight: 900, color: "#FFF" }}>$5K&ndash;$15K</span>
+                  <span style={{ fontSize: 13, color: MUTED }}>per custom agent (multi-system)</span>
+                </div>
               </div>
             </div>
           </FadeIn>
@@ -434,9 +440,9 @@ export default function MARSDesignsWebsite() {
             <div style={{ textAlign: "center", marginTop: 40, padding: 24, border: `1px dashed ${ACCENT}15` }}>
               <div style={{ fontSize: 12, color: MUTED, letterSpacing: 2, marginBottom: 4 }}>MARKET RATE COMPARISON</div>
               <div style={{ fontSize: 14, color: TEXT }}>
-                Setup: <span style={{ color: ACCENT, fontWeight: 700 }}>$2K-$5K</span> <span style={{ color: DIM }}>(market: $5K-$15K)</span> &nbsp;&bull;&nbsp;
-                Retainer: <span style={{ color: ACCENT, fontWeight: 700 }}>$458/mo</span> <span style={{ color: DIM }}>(market: $2K-$8K/mo)</span> &nbsp;&bull;&nbsp;
-                Agents: <span style={{ color: ACCENT, fontWeight: 700 }}>$500+</span> <span style={{ color: DIM }}>(market: $5K-$25K)</span>
+                Setup: <span style={{ color: ACCENT, fontWeight: 700 }}>$3K-$5K</span> <span style={{ color: DIM }}>(market: $5K-$15K)</span> &nbsp;&bull;&nbsp;
+                Retainer: <span style={{ color: ACCENT, fontWeight: 700 }}>$2,500/mo</span> <span style={{ color: DIM }}>(market: $2K-$8K/mo)</span> &nbsp;&bull;&nbsp;
+                Agents: <span style={{ color: ACCENT, fontWeight: 700 }}>from $2,000</span> <span style={{ color: DIM }}>(market: $5K-$25K)</span>
               </div>
             </div>
           </FadeIn>
