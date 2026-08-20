@@ -3,7 +3,7 @@
 ## What's in v3
 - Updated logo (hexagon + Mars planet)
 - New sections: Custom Agent Development, Agent-to-Agent Architecture, Answer Engine Optimization
-- New pricing: Launchpad ($2,000-$5,000), Retainer ($458/mo), Agents & AEO ($500+)
+- Public pricing: Launchpad ($4,000 one-time), Retainer ($2,500/mo), Agents & AEO ($2,000+)
 - Contact email: discovery@marsdesigns.io
 - Location: "Based in Texas. Available everywhere."
 - Privacy policy (TCPA, CAN-SPAM, CCPA, Voice AI, SMS compliant)
