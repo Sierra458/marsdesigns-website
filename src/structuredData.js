@@ -47,11 +47,11 @@ export const structuredData = {
           name: "Retainer",
           description:
             "Monthly optimization, AEO monitoring, prompt and agent updates, GitHub maintenance, and priority support.",
-          price: "2500.00",
+          price: "1500.00",
           priceCurrency: "USD",
           priceSpecification: {
             "@type": "UnitPriceSpecification",
-            price: "2500.00",
+            price: "1500.00",
             priceCurrency: "USD",
             unitText: "MONTH",
             billingDuration: "P1M",
@@ -120,7 +120,7 @@ export const structuredData = {
           name: "How much is the MARS Designs retainer?",
           acceptedAnswer: {
             "@type": "Answer",
-            text: "The retainer is $2,500 per month for ongoing optimization, AEO monitoring, prompt and agent updates, GitHub maintenance, and priority support.",
+            text: "The retainer is $1,500 per month for ongoing optimization, AEO monitoring, prompt and agent updates, GitHub maintenance, and priority support.",
           },
         },
         {
