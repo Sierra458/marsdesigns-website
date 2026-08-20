@@ -119,7 +119,7 @@ function HomePage() {
 
   const pricingTiers = [
     { name: "LAUNCHPAD", price: "$4,000", period: "one-time", desc: "Get set up right from day one", features: ["AI account setup & configuration", "Hardware assessment & recommendations", "5 custom AI skills included", "Tool orientation & training", "Quick-start prompt library", "GitHub repository setup", "Sandbox testing environment", "30-day post-launch support"], highlight: false },
-    { name: "RETAINER", price: "$2,500", period: "/month", desc: "Ongoing optimization, AEO & support", features: ["Monthly performance reviews", "Prompt & agent updates", "AEO monitoring & citation reports", "GitHub maintenance & backups", "Priority 24hr support", "1-2 new features per quarter", "Staff training as needed", "Workflow optimization"], highlight: true },
+    { name: "RETAINER", price: "$1,500", period: "/month", desc: "Ongoing optimization, AEO & support", features: ["Monthly performance reviews", "Prompt & agent updates", "AEO monitoring & citation reports", "GitHub maintenance & backups", "Priority 24hr support", "1-2 new features per quarter", "Staff training as needed", "Workflow optimization"], highlight: true },
     { name: "AGENTS & AEO", price: "$2,000+", period: "per project", desc: "Custom agents, multi-agent systems & AI visibility", features: ["AI Agents (single workflow): $2,000+ each", "Custom Agents (multi-system): $5,000 - $15,000", "Multi-agent A2A systems: $10,000+", "AEO strategy & setup: $1,500 - $3,000", "Agent-to-agent architecture design", "Full sandbox testing & deployment", "Answer engine content optimization", "AI citation tracking setup", "90-day support window"], highlight: false },
   ];
 
@@ -431,7 +431,7 @@ function HomePage() {
               <div style={{ fontSize: 12, color: MUTED, letterSpacing: 2, marginBottom: 4 }}>MARKET RATE COMPARISON</div>
               <div style={{ fontSize: 14, color: TEXT }}>
                 Setup: <span style={{ color: ACCENT, fontWeight: 700 }}>$4,000</span> <span style={{ color: DIM }}>(market: $5K-$15K)</span> &nbsp;&bull;&nbsp;
-                Retainer: <span style={{ color: ACCENT, fontWeight: 700 }}>$2,500/mo</span> <span style={{ color: DIM }}>(market: $2K-$8K/mo)</span> &nbsp;&bull;&nbsp;
+                Retainer: <span style={{ color: ACCENT, fontWeight: 700 }}>$1,500/mo</span> &nbsp;&bull;&nbsp;
                 Agents: <span style={{ color: ACCENT, fontWeight: 700 }}>from $2,000</span> <span style={{ color: DIM }}>(market: $5K-$25K)</span>
               </div>
             </div>
