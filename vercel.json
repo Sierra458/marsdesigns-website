@@ -2,5 +2,11 @@
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
   "installCommand": "npm install",
-  "framework": "vite"
+  "framework": "vite",
+  "trailingSlash": false,
+  "cleanUrls": true,
+  "rewrites": [
+    { "source": "/privacy", "destination": "/privacy/index.html" },
+    { "source": "/privacy-policy", "destination": "/privacy-policy/index.html" }
+  ]
 }
