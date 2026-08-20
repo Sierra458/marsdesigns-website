@@ -1,4 +1,5 @@
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
+import PrivacyPage from "./PrivacyPage";
 
 const ACCENT = "#E8491C";
 const ACCENT2 = "#FF6B3D";
@@ -11,25 +12,19 @@ const DIM = "#444444";
 
 const sections = ["home", "about", "services", "pricing", "process", "contact"];
 
-function useInView(ref) {
-  const [visible, setVisible] = useState(false);
-  useEffect(() => {
-    if (!ref.current) return;
-    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) setVisible(true); }, { threshold: 0.15 });
-    obs.observe(ref.current);
-    return () => obs.disconnect();
-  }, [ref]);
-  return visible;
-}
-
 function FadeIn({ children, delay = 0, style = {} }) {
-  const ref = useRef(null);
-  const visible = useInView(ref);
+  // Always paint content so prerendered HTML stays crawler-visible.
   return (
-    <div ref={ref} style={{ opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(30px)", transition: `all 0.7s cubic-bezier(0.22, 1, 0.36, 1) ${delay}s`, ...style }}>
+    <div style={{ opacity: 1, transform: "translateY(0)", transition: `all 0.7s cubic-bezier(0.22, 1, 0.36, 1) ${delay}s`, ...style }}>
       {children}
     </div>
   );
+}
+
+function getPath(url) {
+  const raw = url ?? (typeof window !== "undefined" ? window.location.pathname : "/");
+  const path = raw.split("?")[0].split("#")[0].replace(/\/+$/, "");
+  return path === "" ? "/" : path;
 }
 
 function Logo({ size = 28 }) {
@@ -74,23 +69,19 @@ function Tag({ children }) {
   return <span style={{ display: "inline-block", padding: "3px 10px", border: `1px solid ${ACCENT}12`, fontSize: 11, letterSpacing: 1, textTransform: "uppercase", color: DIM, marginRight: 4, marginTop: 4 }}>{children}</span>;
 }
 
-export default function MARSDesignsWebsite() {
+export default function App({ url }) {
+  const path = getPath(url);
+  if (path === "/privacy" || path === "/privacy-policy") {
+    return <PrivacyPage />;
+  }
+  return <HomePage />;
+}
+
+function HomePage() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [privacyOpen, setPrivacyOpen] = useState(false);
   const [formState, setFormState] = useState({ name: "", email: "", business: "", message: "" });
   const [formStatus, setFormStatus] = useState("idle");
   const [formError, setFormError] = useState("");
-
-  useEffect(() => {
-    const link = document.createElement("link");
-    link.href = "https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;700&family=Exo+2:wght@300;400;500;700&display=swap";
-    link.rel = "stylesheet";
-    document.head.appendChild(link);
-  }, []);
-
-  useEffect(() => {
-    if (privacyOpen) { document.body.style.overflow = "hidden"; } else { document.body.style.overflow = ""; }
-  }, [privacyOpen]);
 
   const scrollTo = (id) => { document.getElementById(id)?.scrollIntoView({ behavior: "smooth" }); setMenuOpen(false); };
 
@@ -496,7 +487,7 @@ export default function MARSDesignsWebsite() {
               {formStatus === "sending" ? "TRANSMITTING..." : formStatus === "success" ? "RECEIVED — WE'LL BE IN TOUCH" : formStatus === "error" ? "SOMETHING WENT WRONG — TRY AGAIN" : "BOOK FREE DISCOVERY CALL"}
             </button>
             {formStatus === "success" && <div style={{ marginTop: 16, padding: 14, border: `1px solid ${ACCENT}40`, color: ACCENT, fontWeight: 600, letterSpacing: 1 }}>Received — we'll be in touch within 24 hours.</div>}
-            <p style={{ fontSize: 11, color: DIM, lineHeight: 1.6, marginTop: 12 }}>By submitting this form, you agree to our <a href="#" onClick={e => { e.preventDefault(); setPrivacyOpen(true); }} style={{ color: MUTED, textDecoration: "underline" }}>Privacy Policy</a> and consent to receive communications from MARS Designs at the email provided. You may unsubscribe at any time.</p>
+            <p style={{ fontSize: 11, color: DIM, lineHeight: 1.6, marginTop: 12 }}>By submitting this form, you agree to our <a href="/privacy" style={{ color: MUTED, textDecoration: "underline" }}>Privacy Policy</a> and consent to receive communications from MARS Designs at the email provided. You may unsubscribe at any time.</p>
           </form>
           <div style={{ marginTop: 32, display: "flex", justifyContent: "center", gap: 40 }}>
             <div>
@@ -515,49 +506,11 @@ export default function MARSDesignsWebsite() {
       <footer style={{ padding: "40px 24px", borderTop: `1px solid ${ACCENT}10` }}>
         <div style={{ maxWidth: 1100, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           <Logo size={14} />
-          <div style={{ fontSize: 11, color: DIM, letterSpacing: 2 }}>&copy; 2026 MARS Designs LLC &nbsp;|&nbsp; <a href="#" onClick={e => { e.preventDefault(); setPrivacyOpen(true); }} style={{ color: "#555" }}>Privacy Policy</a></div>
+          <div style={{ fontSize: 11, color: DIM, letterSpacing: 2 }}>&copy; 2026 MARS Designs LLC &nbsp;|&nbsp; <a href="/privacy" style={{ color: "#555" }}>Privacy Policy</a></div>
           <div style={{ fontSize: 11, color: DIM, letterSpacing: 2 }}>AI that works for your business.</div>
         </div>
       </footer>
 
-      {/* PRIVACY OVERLAY */}
-      {privacyOpen && (
-        <div style={{ position: "fixed", inset: 0, zIndex: 2000, background: BG, overflowY: "auto" }}>
-          <div style={{ maxWidth: 780, margin: "0 auto", padding: "80px 24px 60px" }}>
-            <button onClick={() => setPrivacyOpen(false)} style={{ display: "inline-flex", alignItems: "center", gap: 6, fontFamily: "'Rajdhani', sans-serif", fontSize: 13, fontWeight: 500, letterSpacing: 3, textTransform: "uppercase", color: MUTED, cursor: "pointer", border: "none", background: "none", marginBottom: 36 }}>← Back to Site</button>
-            <h1 style={{ fontFamily: "'Orbitron', sans-serif", fontSize: 28, fontWeight: 700, color: "#fff", letterSpacing: 2, marginBottom: 6 }}>PRIVACY POLICY</h1>
-            <p style={{ fontSize: 12, color: MUTED, letterSpacing: 2, marginBottom: 36 }}>Last Updated: March 15, 2026</p>
-            {[
-              { t: null, p: 'MARS Designs LLC ("we," "us," or "our") is committed to protecting your privacy. This Privacy Policy describes how we collect, use, disclose, and safeguard your information when you visit marsdesigns.io (the "Site"), use our services, or communicate with us through any channel including email, SMS, telephone, or AI-assisted communications.' },
-              { t: "1. INFORMATION WE COLLECT", p: "We may collect personal information you voluntarily provide: name, email, phone number, business name, mailing address, and project details. We also automatically collect IP address, browser type, OS, pages viewed, and analytics data via cookies." },
-              { t: "2. HOW WE USE YOUR INFORMATION", p: "We use information to: respond to inquiries and provide services; send transactional and marketing communications (with consent); improve our website and services; comply with legal obligations; and protect our rights." },
-              { t: "3. COMMUNICATIONS & CONSENT", p: null },
-              { t: null, sub: "Email", p: "By submitting a form or providing your email, you consent to transactional emails. You may opt in to marketing emails. Unsubscribe at any time via the link in any email or by contacting discovery@marsdesigns.io." },
-              { t: null, sub: "SMS / Text Messages", p: "By providing your phone number and opting in, you consent to SMS/text messages including project updates, reminders, and promotional offers. Message frequency varies. Message and data rates may apply. Opt out by replying STOP. Reply HELP for assistance. SMS consent is not a condition of purchase. We comply with the TCPA." },
-              { t: null, sub: "Telephone & Voice AI", p: "By providing your phone number, you consent to calls which may include automated dialing systems, pre-recorded messages, and AI-assisted voice technology. Revoke consent by informing us during a call, emailing discovery@marsdesigns.io, or following opt-out instructions. We comply with the TCPA and TSR." },
-              { t: null, sub: "AI-Assisted Communications", p: "MARS Designs may use AI tools for email drafting, chatbot responses, voice interactions, and content personalization. When AI is used in real-time interactions, we disclose this at the start." },
-              { t: "4. SHARING YOUR INFORMATION", p: "We do not sell, rent, or trade your personal information. We may share with service providers under confidentiality agreements, when required by law, in business transfers, or with your explicit consent." },
-              { t: "5. DATA SECURITY", p: "We implement commercially reasonable safeguards. No method of transmission is 100% secure." },
-              { t: "6. DATA RETENTION", p: "We retain information as long as needed to fulfill stated purposes, comply with law, resolve disputes, and enforce agreements." },
-              { t: "7. YOUR RIGHTS", p: "You may have rights to: access, correct, or delete your data; opt out of marketing; request data portability; and withdraw consent. Contact discovery@marsdesigns.io. Response within 30 days." },
-              { t: "8. COOKIES", p: "Our Site may use cookies. Control via browser settings." },
-              { t: "9. CHILDREN'S PRIVACY", p: "Services not directed to under-18. We do not knowingly collect children's data." },
-              { t: "10. CALIFORNIA RESIDENTS (CCPA/CPRA)", p: "Additional rights include: right to know, delete, opt out of sale/sharing. We do not sell personal information. Contact discovery@marsdesigns.io." },
-              { t: "11. CAN-SPAM COMPLIANCE", p: "Marketing emails include physical address, clear unsubscribe, honest subjects. Opt-outs honored within 10 business days." },
-              { t: "12. CHANGES", p: "We may update this policy. Changes posted here with revised date." },
-              { t: "13. CONTACT US", p: "MARS Designs LLC — Email: discovery@marsdesigns.io — Based in Texas. Available everywhere." },
-            ].map((s, i) => (
-              <div key={i}>
-                {s.t && <h2 style={{ fontFamily: "'Orbitron', sans-serif", fontSize: 16, fontWeight: 700, color: "#fff", letterSpacing: 1, marginTop: 36, marginBottom: 10 }}>{s.t}</h2>}
-                {s.sub && <h3 style={{ fontSize: 15, fontWeight: 700, color: ACCENT, letterSpacing: 2, marginTop: 20, marginBottom: 6 }}>{s.sub}</h3>}
-                {s.p && <p style={{ color: "#999", lineHeight: 1.8, marginBottom: 12, fontSize: 14 }}>{s.p}</p>}
-              </div>
-            ))}
-            <hr style={{ border: "none", borderTop: `1px solid ${ACCENT}15`, margin: "28px 0" }} />
-            <p style={{ fontSize: 11, color: DIM }}>This policy covers marsdesigns.io and all MARS Designs communications channels.</p>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

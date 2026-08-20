@@ -1,10 +1,17 @@
 import React from 'react'
-import ReactDOM from 'react-dom/client'
+import { createRoot, hydrateRoot } from 'react-dom/client'
 import App from './App'
 import './index.css'
 
-ReactDOM.createRoot(document.getElementById('root')).render(
+const el = document.getElementById('root')
+const app = (
   <React.StrictMode>
     <App />
   </React.StrictMode>
 )
+
+if (el.hasChildNodes()) {
+  hydrateRoot(el, app)
+} else {
+  createRoot(el).render(app)
+}
