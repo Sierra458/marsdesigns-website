@@ -89,6 +89,10 @@ for (const page of pages) {
   const outFile = path.join(distDir, page.file);
   fs.mkdirSync(path.dirname(outFile), { recursive: true });
   fs.writeFileSync(outFile, html);
+  if (page.url !== "/") {
+    const flat = path.join(distDir, `${page.url.replace(/^\//, "")}.html`);
+    fs.writeFileSync(flat, html);
+  }
   console.log(`prerendered ${page.url} -> ${path.relative(root, outFile)} (${html.length} bytes)`);
 }
 

@@ -3,5 +3,10 @@
   "outputDirectory": "dist",
   "installCommand": "npm install",
   "framework": "vite",
-  "trailingSlash": false
+  "trailingSlash": false,
+  "cleanUrls": true,
+  "rewrites": [
+    { "source": "/privacy", "destination": "/privacy/index.html" },
+    { "source": "/privacy-policy", "destination": "/privacy-policy/index.html" }
+  ]
 }
