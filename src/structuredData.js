@@ -14,7 +14,7 @@ export const structuredData = {
       url: SITE_URL,
       email: CONTACT_EMAIL,
       description:
-        "MARS Designs is a Texas AI consultancy that sets up AI accounts, custom skills, AI agents, multi-agent A2A systems, and answer engine optimization for small businesses. Contact us for a quote.",
+        "MARS Designs is a Texas AI consultancy that sets up AI accounts, custom skills, AI agents, multi-agent systems, and answer engine optimization for small businesses. Contact us for a quote.",
       foundingDate: "2026",
       areaServed: {
         "@type": "Country",
@@ -28,7 +28,7 @@ export const structuredData = {
       knowsAbout: [
         "Answer engine optimization",
         "AI agents",
-        "Agent-to-agent architecture",
+        "Multi-agent systems",
         "Custom AI skills",
         "Grok",
         "Claude",
@@ -59,7 +59,7 @@ export const structuredData = {
           "@type": "Offer",
           name: "AI agents",
           description:
-            "Custom AI agents, multi-system agents, multi-agent A2A systems, and answer engine optimization. Contact us for a quote.",
+            "Custom AI agents, multi-system agents, multi-agent systems, and answer engine optimization. Contact us for a quote.",
           url: `${SITE_URL}/#investment`,
         },
       ],
@@ -80,7 +80,7 @@ export const structuredData = {
           name: "What does MARS Designs do?",
           acceptedAnswer: {
             "@type": "Answer",
-            text: "MARS Designs is a Texas AI consultancy that helps small businesses adopt practical AI: account setup, custom skills, AI agents, agent-to-agent architecture, and answer engine optimization (AEO).",
+            text: "MARS Designs is a Texas AI consultancy that helps small businesses adopt practical AI: account setup, custom skills, AI agents, multi-agent systems, and answer engine optimization (AEO).",
           },
         },
         {

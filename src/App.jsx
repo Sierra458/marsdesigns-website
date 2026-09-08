@@ -135,15 +135,15 @@ function HomePage() {
 
   const agentFeatures = ["Custom agent architecture & design", "Business knowledge base integration", "Tool connections (CRM, calendar, email)", "Guardrails & safety testing", "Sandbox deployment before going live", "Full documentation in your GitHub repo", "Hands-on training for your team", "90-day post-deployment support"];
 
-  const a2aCards = [
-    { num: "01", title: "Discovery", desc: 'Agents publish "Agent Cards" — machine-readable profiles that let other agents find and understand what they do. No manual wiring.', tags: ["Agent Cards", "Auto-Discovery"] },
-    { num: "02", title: "Delegation", desc: "When one agent encounters a task outside its scope, it automatically delegates to the right specialist agent via A2A.", tags: ["Task Routing", "Google A2A"] },
-    { num: "03", title: "Coordination", desc: "Agents exchange context and status in real-time. Your entire workflow runs end-to-end without a human shepherding each step.", tags: ["Real-Time Sync", "MCP + A2A"] },
+  const coordinationCards = [
+    { num: "01", title: "Roles", desc: "Each specialist agent has a clear job — intake, CRM, follow-up — so the team knows who owns the next step. No mystery wiring.", tags: ["Specialist Roles", "Clear Ownership"] },
+    { num: "02", title: "Handoffs", desc: "When one agent hits a task outside its scope, it passes that work to the specialist that owns it — across the tools you already use.", tags: ["Task Routing", "Tool Handoffs"] },
+    { num: "03", title: "Coordination", desc: "Agents share context and status as work moves. Your workflow runs end-to-end without a human shepherding each step.", tags: ["Shared Context", "Real-Time Sync"] },
   ];
 
-  const a2aFlow = [
+  const coordinationFlow = [
     { name: "INTAKE AGENT", sub: "Lead capture" },
-    { name: "ORCHESTRATOR", sub: "A2A Protocol", highlight: true },
+    { name: "ORCHESTRATOR", sub: "Coordinates the team", highlight: true },
     { name: "CRM AGENT", sub: "Data sync" },
     { name: "FOLLOW-UP AGENT", sub: "Email & SMS" },
   ];
@@ -285,29 +285,29 @@ function HomePage() {
         </div>
       </section>
 
-      {/* A2A ARCHITECTURE */}
+      {/* MULTI-AGENT SYSTEMS */}
       <section style={{ padding: "100px 24px", background: SURFACE }}>
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-          <SectionTitle label="Multi-Agent Systems" title="AGENT-TO-AGENT ARCHITECTURE" />
-          <FadeIn><p style={{ textAlign: "center", fontSize: 16, color: MUTED, lineHeight: 1.7, maxWidth: 650, margin: "0 auto 40px" }}>One agent is powerful. A team of agents that talk to each other? That's where the real transformation happens. We design multi-agent systems using Google's open A2A protocol — so your agents coordinate autonomously across platforms.</p></FadeIn>
+          <SectionTitle label="Multi-Agent Systems" title="AGENT TEAMS THAT COORDINATE" />
+          <FadeIn><p style={{ textAlign: "center", fontSize: 16, color: MUTED, lineHeight: 1.7, maxWidth: 650, margin: "0 auto 40px" }}>One agent is powerful. A team of specialist agents that hand off and coordinate across your tools? That's where the real transformation happens. We design multi-agent systems so intake, CRM, and follow-up agents work together — without you shepherding every step.</p></FadeIn>
           <FadeIn delay={0.1}>
             <div style={{ background: BG, border: `1px solid ${ACCENT}08`, padding: "32px 24px", marginBottom: 32, textAlign: "center" }}>
               <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 12, flexWrap: "wrap" }}>
-                {a2aFlow.map((a, i) => (
+                {coordinationFlow.map((a, i) => (
                   <div key={i} style={{ display: "flex", alignItems: "center", gap: 12 }}>
                     <div style={{ padding: "12px 20px", border: `1px solid ${a.highlight ? ACCENT : ACCENT + "30"}`, background: a.highlight ? SURFACE2 : SURFACE, minWidth: 120 }}>
                       <div style={{ fontSize: 10, color: ACCENT, letterSpacing: 2, fontWeight: 700, marginBottom: 4 }}>{a.name}</div>
                       <div style={{ fontSize: 11, color: MUTED }}>{a.sub}</div>
                     </div>
-                    {i < a2aFlow.length - 1 && <div style={{ color: `${ACCENT}50`, fontSize: 18 }}>⟷</div>}
+                    {i < coordinationFlow.length - 1 && <div style={{ color: `${ACCENT}50`, fontSize: 18 }}>⟷</div>}
                   </div>
                 ))}
               </div>
-              <div style={{ marginTop: 16, fontSize: 11, color: DIM, letterSpacing: 2 }}>AGENTS DISCOVER, DELEGATE, AND COORDINATE — WITHOUT HUMAN HANDOFFS</div>
+              <div style={{ marginTop: 16, fontSize: 11, color: DIM, letterSpacing: 2 }}>SPECIALIST AGENTS HAND OFF AND COORDINATE — WITHOUT HUMAN SHEPHERDING</div>
             </div>
           </FadeIn>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20, marginBottom: 32 }}>
-            {a2aCards.map((c, i) => (
+            {coordinationCards.map((c, i) => (
               <FadeIn key={i} delay={i * 0.08}>
                 <div style={{ padding: 28, background: BG, border: `1px solid ${ACCENT}12`, position: "relative", overflow: "hidden" }}>
                   <div style={{ position: "absolute", top: 0, left: 0, width: "100%", height: 2, background: `linear-gradient(90deg, ${ACCENT}, transparent)` }} />
@@ -321,7 +321,7 @@ function HomePage() {
           </div>
           <FadeIn delay={0.3}>
             <div style={{ textAlign: "center", padding: 20, border: `1px dashed ${ACCENT}15` }}>
-              <p style={{ fontSize: 14, color: "#999", lineHeight: 1.7, margin: 0 }}>A2A is an open protocol by Google, now under the Linux Foundation, with 150+ enterprise partners. It complements Anthropic's MCP — <span style={{ color: ACCENT, fontWeight: 700 }}>MCP connects agents to tools, A2A connects agents to each other.</span></p>
+              <p style={{ fontSize: 14, color: "#999", lineHeight: 1.7, margin: 0 }}>We connect agents to your tools — including Anthropic's MCP when it fits — so specialist agents can <span style={{ color: ACCENT, fontWeight: 700 }}>hand off and coordinate across your stack</span>.</p>
             </div>
           </FadeIn>
         </div>

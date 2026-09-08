@@ -111,6 +111,8 @@ const required = [
   "Grok",
   "Claude",
   "Gemini",
+  "AGENT TEAMS THAT COORDINATE",
+  "specialist agents that hand off and coordinate",
 ];
 const forbidden = [
   "$2,500",
@@ -130,6 +132,10 @@ const forbidden = [
   "USD",
   "ChatGPT",
   "OpenAI",
+  "A2A",
+  "Google A2A",
+  "Agent Cards",
+  "Linux Foundation",
   "Average time saved",
   "Return on investment",
   "Admin task reduction",
