@@ -3,7 +3,7 @@
 ## What's in v3
 - Updated logo (hexagon + Mars planet)
 - New sections: Custom Agent Development, Agent-to-Agent Architecture, Answer Engine Optimization
-- Public pricing: Launchpad ($4,000 one-time), Retainer ($1,500/mo), Agents & AEO ($2,000+)
+- Public pricing: none published — Investment block asks visitors to contact for a quote
 - Contact email: discovery@marsdesigns.io
 - Location: "Based in Texas. Available everywhere."
 - Privacy policy (TCPA, CAN-SPAM, CCPA, Voice AI, SMS compliant)
@@ -42,7 +42,7 @@ Open http://localhost:5173
 ### 5. Push
 ```bash
 git add .
-git commit -m "v3 — Agents, A2A, AEO, updated pricing & privacy"
+git commit -m "v3 — Agents, A2A, AEO, investment CTA & privacy"
 git push origin main
 ```
 
