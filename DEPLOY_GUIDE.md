@@ -42,7 +42,7 @@ Open http://localhost:5173
 ### 5. Push
 ```bash
 git add .
-git commit -m "v3 — Agents, A2A, AEO, investment CTA & privacy"
+git commit -m "v3 — Agents, multi-agent systems, AEO, investment CTA & privacy"
 git push origin main
 ```
 
