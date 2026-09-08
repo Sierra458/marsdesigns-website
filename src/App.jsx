@@ -10,7 +10,7 @@ const TEXT = "#E0E0E0";
 const MUTED = "#777777";
 const DIM = "#444444";
 
-const sections = ["home", "about", "services", "pricing", "process", "contact"];
+const sections = ["home", "about", "services", "investment", "process", "contact"];
 
 function FadeIn({ children, delay = 0, style = {} }) {
   // Always paint content so prerendered HTML stays crawler-visible.
@@ -109,18 +109,12 @@ function HomePage() {
   };
 
   const services = [
-    { icon: "01", title: "AI Account Setup", desc: "Configure Claude, Grok, Gemini, and ChatGPT accounts with proper billing, team access, API keys, and security settings.", price: "Included in setup" },
-    { icon: "02", title: "Hardware Config", desc: "Assess your current devices and recommend optimal hardware for AI workloads — tablets, laptops, networking.", price: "Included in setup" },
-    { icon: "03", title: "Workflow Analysis", desc: "On-site or virtual observation of your core business processes. Time-and-motion analysis. Bottleneck identification and AI opportunity mapping.", price: "$500 - $1,500" },
-    { icon: "04", title: "Custom AI Skills", desc: "Purpose-built Claude or OpenClaw skills with specialized prompts, tools, and knowledge bases specific to your business.", price: "$150 / skill" },
-    { icon: "05", title: "Sandbox Testing", desc: "Dedicated testing environments where you experiment safely before going live. Break things without consequence.", price: "Included" },
-    { icon: "06", title: "GitHub Repository", desc: "Full documentation, version control, and code management for all your AI configurations. You own everything we build.", price: "Included + maintained" },
-  ];
-
-  const pricingTiers = [
-    { name: "LAUNCHPAD", price: "$4,000", period: "one-time", desc: "Get set up right from day one", features: ["AI account setup & configuration", "Hardware assessment & recommendations", "5 custom AI skills included", "Tool orientation & training", "Quick-start prompt library", "GitHub repository setup", "Sandbox testing environment", "30-day post-launch support"], highlight: false },
-    { name: "RETAINER", price: "$1,500", period: "/month", desc: "Ongoing optimization, AEO & support", features: ["Monthly performance reviews", "Prompt & agent updates", "AEO monitoring & citation reports", "GitHub maintenance & backups", "Priority 24hr support", "1-2 new features per quarter", "Staff training as needed", "Workflow optimization"], highlight: true },
-    { name: "AGENTS & AEO", price: "$2,000+", period: "per project", desc: "Custom agents, multi-agent systems & AI visibility", features: ["AI Agents (single workflow): $2,000+ each", "Custom Agents (multi-system): $5,000 - $15,000", "Multi-agent A2A systems: $10,000+", "AEO strategy & setup: $1,500 - $3,000", "Agent-to-agent architecture design", "Full sandbox testing & deployment", "Answer engine content optimization", "AI citation tracking setup", "90-day support window"], highlight: false },
+    { icon: "01", title: "AI Account Setup", desc: "Configure Grok, Claude, and Gemini accounts with proper billing, team access, API keys, and security settings." },
+    { icon: "02", title: "Hardware Config", desc: "Assess your current devices and recommend optimal hardware for AI workloads — tablets, laptops, networking." },
+    { icon: "03", title: "Workflow Analysis", desc: "On-site or virtual observation of your core business processes. Time-and-motion analysis. Bottleneck identification and AI opportunity mapping." },
+    { icon: "04", title: "Custom AI Skills", desc: "Purpose-built Claude or OpenClaw skills with specialized prompts, tools, and knowledge bases specific to your business." },
+    { icon: "05", title: "Sandbox Testing", desc: "Dedicated testing environments where you experiment safely before going live. Break things without consequence." },
+    { icon: "06", title: "GitHub Repository", desc: "Full documentation, version control, and code management for all your AI configurations. You own everything we build." },
   ];
 
   const processSteps = [
@@ -130,12 +124,6 @@ function HomePage() {
     { num: "04", title: "Build", desc: "Configure accounts, build custom agents, create integrations. Everything tracked in your GitHub repo from day one." },
     { num: "05", title: "Test & Train", desc: "Sandbox first, production second. Hands-on training for you and your team until everyone's confident." },
     { num: "06", title: "Launch & Support", desc: "Go live. Full documentation handoff. You own everything. We're here when you need us." },
-  ];
-
-  const stats = [
-    { value: "61", unit: "hrs/wk", label: "Average time saved" },
-    { value: "8x", unit: "", label: "Return on investment" },
-    { value: "80%", unit: "", label: "Admin task reduction" },
   ];
 
   const agentTypes = [
@@ -161,15 +149,15 @@ function HomePage() {
   ];
 
   const aeoCards = [
-    { num: "01", title: "Structured Content", desc: "We restructure your website so AI engines can extract and cite it — FAQ schema, answer blocks, entity markup, and concise formatting.", price: "Schema + Content Audit" },
-    { num: "02", title: "AI Citation Strategy", desc: "Optimize for the RAG pipelines powering ChatGPT, Perplexity, and Google AI Overviews. We target the prompts your customers actually type.", price: "Prompt-Matched Optimization" },
-    { num: "03", title: "Monitoring & Iteration", desc: "Track your brand's AI citation rate across platforms. Monthly reports showing where you appear, where you don't, and what we're doing about it.", price: "Monthly AEO Reports" },
+    { num: "01", title: "Structured Content", desc: "We restructure your website so AI engines can extract and cite it — FAQ schema, answer blocks, entity markup, and concise formatting.", note: "Schema + Content Audit" },
+    { num: "02", title: "AI Citation Strategy", desc: "Optimize for the RAG pipelines powering Grok, Gemini, or Perplexity. We target the prompts your customers actually type.", note: "Prompt-Matched Optimization" },
+    { num: "03", title: "Monitoring & Iteration", desc: "Track your brand's AI citation rate across platforms. Monthly reports showing where you appear, where you don't, and what we're doing about it.", note: "Monthly AEO Reports" },
   ];
 
   const aeoStats = [
     { value: "25%", label: "Of search shifting to AI by 2026" },
     { value: "60%", label: "Of Google searches end zero-click" },
-    { value: "800M+", label: "Weekly ChatGPT users" },
+    { value: "800M+", label: "People asking AI for help" },
   ];
 
   const industries = ["Salons & Spas", "Restaurants", "Boutiques", "Custom Furniture", "Home Decor", "Fitness Studios", "Dental / Medical", "Cleaning Services", "Real Estate", "Legal Practices", "Consulting Firms", "Retail Shops"];
@@ -211,20 +199,6 @@ function HomePage() {
         </div>
       </section>
 
-      {/* STATS */}
-      <div style={{ borderTop: `1px solid ${ACCENT}15`, borderBottom: `1px solid ${ACCENT}15`, padding: "40px 0", background: SURFACE }}>
-        <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 24px", display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 24 }}>
-          {stats.map((s, i) => (
-            <FadeIn key={i} delay={i * 0.1}>
-              <div style={{ textAlign: "center" }}>
-                <div style={{ fontSize: 40, fontFamily: "'Orbitron', sans-serif", fontWeight: 900, color: "#FFF", lineHeight: 1 }}>{s.value}<span style={{ fontSize: 16, color: ACCENT }}>{s.unit}</span></div>
-                <div style={{ fontSize: 12, color: MUTED, letterSpacing: 3, marginTop: 8, textTransform: "uppercase" }}>{s.label}</div>
-              </div>
-            </FadeIn>
-          ))}
-        </div>
-      </div>
-
       {/* ABOUT */}
       <section id="about" style={{ padding: "100px 24px", maxWidth: 1100, margin: "0 auto" }}>
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 64, alignItems: "center" }}>
@@ -232,7 +206,7 @@ function HomePage() {
             <div>
               <SectionTitle label="Who we are" title="NOT ANOTHER TECH CONSULTANCY" align="left" />
               <p style={{ fontSize: 16, lineHeight: 1.8, color: TEXT, marginBottom: 20 }}>MARS Designs is a translator — taking the most transformative technology of the decade and making it accessible, practical, and profitable for the businesses that form the backbone of the American economy.</p>
-              <p style={{ fontSize: 16, lineHeight: 1.8, color: MUTED, marginBottom: 32 }}>While 68% of U.S. small businesses report using AI, only about 10% have achieved real, production-level integration. That gap — between "I signed up for ChatGPT" and "AI is saving me 60 hours a month" — is where we live.</p>
+              <p style={{ fontSize: 16, lineHeight: 1.8, color: MUTED, marginBottom: 32 }}>While 68% of U.S. small businesses report using AI, only about 10% have achieved real, production-level integration. That gap — between "I signed up for Grok" and "AI is saving me 60 hours a month" — is where we live.</p>
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
                 {[{ title: "Clarity", desc: "Plain language. No jargon." }, { title: "Ownership", desc: "You own everything we build." }, { title: "Measurable", desc: "Every project tied to ROI." }, { title: "Integrity", desc: "We recommend what works." }].map((v, i) => (
                   <div key={i} style={{ padding: 16, border: `1px solid ${ACCENT}15`, borderLeft: `2px solid ${ACCENT}` }}>
@@ -269,8 +243,7 @@ function HomePage() {
                   <div style={{ position: "absolute", top: 0, left: 0, width: "100%", height: 2, background: `linear-gradient(90deg, ${ACCENT}, transparent)` }} />
                   <div style={{ fontSize: 32, fontFamily: "'Orbitron', sans-serif", fontWeight: 900, color: `${ACCENT}20`, marginBottom: 12 }}>{s.icon}</div>
                   <h3 style={{ fontSize: 16, fontFamily: "'Orbitron', sans-serif", fontWeight: 700, color: "#FFF", margin: "0 0 12px", letterSpacing: 1 }}>{s.title}</h3>
-                  <p style={{ fontSize: 14, color: MUTED, lineHeight: 1.7, margin: "0 0 16px" }}>{s.desc}</p>
-                  <div style={{ fontSize: 12, color: ACCENT, letterSpacing: 2, fontWeight: 700 }}>{s.price}</div>
+                  <p style={{ fontSize: 14, color: MUTED, lineHeight: 1.7, margin: 0 }}>{s.desc}</p>
                 </div>
               </FadeIn>
             ))}
@@ -306,16 +279,7 @@ function HomePage() {
                 </div>
               ))}
               <ThinLine opacity={0.15} />
-              <div style={{ marginTop: 16 }}>
-                <div style={{ display: "flex", alignItems: "baseline", gap: 6 }}>
-                  <span style={{ fontSize: 28, fontFamily: "'Orbitron', sans-serif", fontWeight: 900, color: "#FFF" }}>$2,000+</span>
-                  <span style={{ fontSize: 13, color: MUTED }}>per AI agent (single workflow)</span>
-                </div>
-                <div style={{ display: "flex", alignItems: "baseline", gap: 6, marginTop: 8 }}>
-                  <span style={{ fontSize: 28, fontFamily: "'Orbitron', sans-serif", fontWeight: 900, color: "#FFF" }}>$5K&ndash;$15K</span>
-                  <span style={{ fontSize: 13, color: MUTED }}>per custom agent (multi-system)</span>
-                </div>
-              </div>
+              <button onClick={() => scrollTo("contact")} style={{ width: "100%", marginTop: 16, padding: "12px 0", fontSize: 12, letterSpacing: 3, cursor: "pointer", fontFamily: "'Rajdhani', sans-serif", fontWeight: 700, textTransform: "uppercase", background: ACCENT, color: "#FFF", border: "none" }}>Contact us for a quote</button>
             </div>
           </FadeIn>
         </div>
@@ -366,7 +330,7 @@ function HomePage() {
       {/* AEO */}
       <section style={{ padding: "100px 24px", maxWidth: 1100, margin: "0 auto" }}>
         <SectionTitle label="Visibility" title="ANSWER ENGINE OPTIMIZATION" />
-        <FadeIn><p style={{ textAlign: "center", fontSize: 16, color: MUTED, lineHeight: 1.7, maxWidth: 650, margin: "0 auto 40px" }}>SEO gets you ranked. AEO gets you <em style={{ color: TEXT, fontStyle: "normal" }}>cited</em>. When customers ask ChatGPT, Gemini, or Perplexity for recommendations, your business needs to be the answer — not just a link.</p></FadeIn>
+        <FadeIn><p style={{ textAlign: "center", fontSize: 16, color: MUTED, lineHeight: 1.7, maxWidth: 650, margin: "0 auto 40px" }}>SEO gets you ranked. AEO gets you <em style={{ color: TEXT, fontStyle: "normal" }}>cited</em>. When customers ask Grok, Gemini, or Perplexity for recommendations, your business needs to be the answer — not just a link.</p></FadeIn>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20, marginBottom: 32 }}>
           {aeoCards.map((c, i) => (
             <FadeIn key={i} delay={i * 0.08}>
@@ -375,7 +339,7 @@ function HomePage() {
                 <div style={{ fontSize: 32, fontFamily: "'Orbitron', sans-serif", fontWeight: 900, color: `${ACCENT}20`, marginBottom: 12 }}>{c.num}</div>
                 <h3 style={{ fontSize: 16, fontFamily: "'Orbitron', sans-serif", fontWeight: 700, color: "#FFF", margin: "0 0 12px", letterSpacing: 1 }}>{c.title}</h3>
                 <p style={{ fontSize: 14, color: MUTED, lineHeight: 1.7, margin: "0 0 14px" }}>{c.desc}</p>
-                <div style={{ fontSize: 12, color: ACCENT, letterSpacing: 2, fontWeight: 700 }}>{c.price}</div>
+                <div style={{ fontSize: 12, color: ACCENT, letterSpacing: 2, fontWeight: 700 }}>{c.note}</div>
               </div>
             </FadeIn>
           ))}
@@ -397,43 +361,16 @@ function HomePage() {
         </FadeIn>
       </section>
 
-      {/* PRICING */}
-      <section id="pricing" style={{ padding: "100px 24px", background: SURFACE }}>
-        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-          <SectionTitle label="Investment" title="PRICING" />
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20, alignItems: "stretch" }}>
-            {pricingTiers.map((t, i) => (
-              <FadeIn key={i} delay={i * 0.1}>
-                <div style={{ padding: 32, background: t.highlight ? SURFACE2 : BG, border: `1px solid ${t.highlight ? ACCENT : ACCENT + "15"}`, position: "relative", display: "flex", flexDirection: "column", height: "100%" }}>
-                  {t.highlight && <div style={{ position: "absolute", top: -1, left: -1, right: -1, height: 3, background: ACCENT }} />}
-                  {t.highlight && <div style={{ position: "absolute", top: 12, right: 12, fontSize: 9, letterSpacing: 3, background: ACCENT, color: "#FFF", padding: "4px 10px", fontWeight: 700 }}>POPULAR</div>}
-                  <div style={{ fontSize: 11, letterSpacing: 4, color: ACCENT, marginBottom: 8, fontWeight: 700 }}>{t.name}</div>
-                  <div style={{ display: "flex", alignItems: "baseline", gap: 4, marginBottom: 8 }}>
-                    <span style={{ fontSize: 36, fontFamily: "'Orbitron', sans-serif", fontWeight: 900, color: "#FFF" }}>{t.price}</span>
-                    <span style={{ fontSize: 13, color: MUTED }}>{t.period}</span>
-                  </div>
-                  <p style={{ fontSize: 14, color: MUTED, marginBottom: 24, lineHeight: 1.5 }}>{t.desc}</p>
-                  <ThinLine opacity={0.15} />
-                  <div style={{ flex: 1, padding: "20px 0" }}>
-                    {t.features.map((f, j) => (
-                      <div key={j} style={{ display: "flex", gap: 10, alignItems: "flex-start", marginBottom: 12, fontSize: 13, color: TEXT }}>
-                        <span style={{ color: ACCENT, fontSize: 10, marginTop: 3 }}>&#9656;</span><span>{f}</span>
-                      </div>
-                    ))}
-                  </div>
-                  <button onClick={() => scrollTo("contact")} style={{ width: "100%", padding: "12px 0", fontSize: 12, letterSpacing: 3, cursor: "pointer", fontFamily: "'Rajdhani', sans-serif", fontWeight: 700, textTransform: "uppercase", background: t.highlight ? ACCENT : "transparent", color: t.highlight ? "#FFF" : ACCENT, border: t.highlight ? "none" : `1px solid ${ACCENT}40` }}>Get started</button>
-                </div>
-              </FadeIn>
-            ))}
-          </div>
-          <FadeIn delay={0.4}>
-            <div style={{ textAlign: "center", marginTop: 40, padding: 24, border: `1px dashed ${ACCENT}15` }}>
-              <div style={{ fontSize: 12, color: MUTED, letterSpacing: 2, marginBottom: 4 }}>MARKET RATE COMPARISON</div>
-              <div style={{ fontSize: 14, color: TEXT }}>
-                Setup: <span style={{ color: ACCENT, fontWeight: 700 }}>$4,000</span> <span style={{ color: DIM }}>(market: $5K-$15K)</span> &nbsp;&bull;&nbsp;
-                Retainer: <span style={{ color: ACCENT, fontWeight: 700 }}>$1,500/mo</span> &nbsp;&bull;&nbsp;
-                Agents: <span style={{ color: ACCENT, fontWeight: 700 }}>from $2,000</span> <span style={{ color: DIM }}>(market: $5K-$25K)</span>
-              </div>
+      {/* INVESTMENT */}
+      <section id="investment" style={{ padding: "100px 24px", background: SURFACE }}>
+        <div style={{ maxWidth: 700, margin: "0 auto", textAlign: "center" }}>
+          <SectionTitle label="Next step" title="INVESTMENT" />
+          <FadeIn>
+            <p style={{ fontSize: 16, color: MUTED, lineHeight: 1.7, margin: "0 0 32px" }}>Contact us for a quote. We scope Launchpad and ongoing work to the shop after a short discovery call.</p>
+            <button onClick={() => scrollTo("contact")} style={{ padding: "14px 36px", background: ACCENT, color: "#FFF", border: "none", fontSize: 13, letterSpacing: 3, cursor: "pointer", fontFamily: "'Rajdhani', sans-serif", fontWeight: 700, textTransform: "uppercase" }}>Book a free call</button>
+            <div style={{ marginTop: 28 }}>
+              <div style={{ fontSize: 11, color: MUTED, letterSpacing: 3, marginBottom: 4 }}>EMAIL</div>
+              <a href="mailto:discovery@marsdesigns.io" style={{ fontSize: 14, color: ACCENT }}>discovery@marsdesigns.io</a>
             </div>
           </FadeIn>
         </div>

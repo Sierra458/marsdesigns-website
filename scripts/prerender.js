@@ -14,7 +14,7 @@ const pages = [
     file: "index.html",
     title: "MARS Designs — AI That Works For Your Business",
     description:
-      "MARS Designs is a Texas AI consultancy. Launchpad is $4,000 one-time, retainer $1,500/month, extra skills $150, and agents from $2,000 after Launchpad. Contact discovery@marsdesigns.io.",
+      "MARS Designs is a Texas AI consultancy. We set up Grok, Claude, and Gemini, custom skills, AI agents, and answer engine optimization for small businesses. Contact us for a quote at discovery@marsdesigns.io.",
     canonical: "https://marsdesigns.io/",
   },
   {
@@ -101,18 +101,40 @@ fs.rmSync(ssrDir, { recursive: true, force: true });
 const homepage = fs.readFileSync(path.join(distDir, "index.html"), "utf8");
 const required = [
   "MARS Designs",
-  "$4,000",
-  "$1,500/month",
-  "$1,500/mo",
-  "$1,500 per month",
-  "1500.00",
-  "$150",
-  "$2,000",
+  "INVESTMENT",
+  "Contact us for a quote",
+  "We scope Launchpad and ongoing work to the shop after a short discovery call.",
   "Based in Texas",
   "discovery@marsdesigns.io",
   "application/ld+json",
+  "Book a free call",
+  "Grok",
+  "Claude",
+  "Gemini",
 ];
-const forbidden = ["$2,500", "2500.00", "$2K-$8K", "90% below market", "SouthernHR"];
+const forbidden = [
+  "$2,500",
+  "2500.00",
+  "$2K-$8K",
+  "90% below market",
+  "SouthernHR",
+  "$4,000",
+  "$1,500",
+  "$150",
+  "$2,000",
+  "$5K",
+  "$10,000",
+  "$500",
+  "priceCurrency",
+  "\"price\"",
+  "USD",
+  "ChatGPT",
+  "OpenAI",
+  "Average time saved",
+  "Return on investment",
+  "Admin task reduction",
+  "61hrs",
+];
 const missing = required.filter((needle) => !homepage.includes(needle));
 if (missing.length) {
   throw new Error(`Homepage HTML is missing crawler text: ${missing.join(", ")}`);
@@ -120,6 +142,9 @@ if (missing.length) {
 const leaked = forbidden.filter((needle) => homepage.includes(needle));
 if (leaked.length) {
   throw new Error(`Homepage HTML still contains retired pricing copy: ${leaked.join(", ")}`);
+}
+if (homepage.includes("$")) {
+  throw new Error("Homepage HTML still contains a dollar sign");
 }
 
 for (const file of ["robots.txt", "sitemap.xml", path.join("privacy", "index.html")]) {

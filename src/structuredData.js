@@ -14,7 +14,7 @@ export const structuredData = {
       url: SITE_URL,
       email: CONTACT_EMAIL,
       description:
-        "MARS Designs is a Texas AI consultancy that sets up AI accounts, custom skills, AI agents, multi-agent A2A systems, and answer engine optimization for small businesses.",
+        "MARS Designs is a Texas AI consultancy that sets up AI accounts, custom skills, AI agents, multi-agent A2A systems, and answer engine optimization for small businesses. Contact us for a quote.",
       foundingDate: "2026",
       areaServed: {
         "@type": "Country",
@@ -30,53 +30,37 @@ export const structuredData = {
         "AI agents",
         "Agent-to-agent architecture",
         "Custom AI skills",
+        "Grok",
+        "Claude",
+        "Gemini",
       ],
       makesOffer: [
         {
           "@type": "Offer",
           name: "Launchpad",
           description:
-            "One-time AI setup: account configuration, hardware assessment, 5 custom AI skills, training, GitHub repository, sandbox testing, and 30-day post-launch support.",
-          price: "4000.00",
-          priceCurrency: "USD",
-          availability: "https://schema.org/InStock",
-          url: `${SITE_URL}/#pricing`,
+            "One-time AI setup: account configuration, hardware assessment, custom AI skills, training, GitHub repository, sandbox testing, and post-launch support. Contact us for a quote after a short discovery call.",
+          url: `${SITE_URL}/#investment`,
         },
         {
           "@type": "Offer",
           name: "Retainer",
           description:
-            "Monthly optimization, AEO monitoring, prompt and agent updates, GitHub maintenance, and priority support.",
-          price: "1500.00",
-          priceCurrency: "USD",
-          priceSpecification: {
-            "@type": "UnitPriceSpecification",
-            price: "1500.00",
-            priceCurrency: "USD",
-            unitText: "MONTH",
-            billingDuration: "P1M",
-          },
-          availability: "https://schema.org/InStock",
-          url: `${SITE_URL}/#pricing`,
+            "Ongoing optimization, AEO monitoring, prompt and agent updates, GitHub maintenance, and priority support. Contact us for a quote.",
+          url: `${SITE_URL}/#investment`,
         },
         {
           "@type": "Offer",
-          name: "Extra custom AI skill",
-          description: "Purpose-built Claude or OpenClaw skill with specialized prompts, tools, and knowledge bases.",
-          price: "150.00",
-          priceCurrency: "USD",
-          availability: "https://schema.org/InStock",
+          name: "Custom AI skills",
+          description: "Purpose-built Claude or OpenClaw skills with specialized prompts, tools, and knowledge bases. Contact us for a quote.",
           url: `${SITE_URL}/#services`,
         },
         {
-          "@type": "AggregateOffer",
+          "@type": "Offer",
           name: "AI agents",
           description:
-            "Custom AI agents from $2,000 after Launchpad. Multi-system custom agents $5,000–$15,000. Multi-agent A2A systems $10,000+.",
-          lowPrice: "2000.00",
-          priceCurrency: "USD",
-          availability: "https://schema.org/InStock",
-          url: `${SITE_URL}/#pricing`,
+            "Custom AI agents, multi-system agents, multi-agent A2A systems, and answer engine optimization. Contact us for a quote.",
+          url: `${SITE_URL}/#investment`,
         },
       ],
     },
@@ -109,34 +93,10 @@ export const structuredData = {
         },
         {
           "@type": "Question",
-          name: "How much does Launchpad cost?",
+          name: "How do I get a quote?",
           acceptedAnswer: {
             "@type": "Answer",
-            text: "Launchpad is $4,000 one-time and includes AI account setup, hardware assessment, 5 custom AI skills, training, a GitHub repository, sandbox testing, and 30-day post-launch support.",
-          },
-        },
-        {
-          "@type": "Question",
-          name: "How much is the MARS Designs retainer?",
-          acceptedAnswer: {
-            "@type": "Answer",
-            text: "The retainer is $1,500 per month for ongoing optimization, AEO monitoring, prompt and agent updates, GitHub maintenance, and priority support.",
-          },
-        },
-        {
-          "@type": "Question",
-          name: "How much does an extra AI skill cost?",
-          acceptedAnswer: {
-            "@type": "Answer",
-            text: "Extra custom AI skills are $150 per skill.",
-          },
-        },
-        {
-          "@type": "Question",
-          name: "How much do AI agents cost?",
-          acceptedAnswer: {
-            "@type": "Answer",
-            text: "AI agents start at $2,000 after Launchpad. Multi-system custom agents are $5,000–$15,000. Multi-agent A2A systems start at $10,000.",
+            text: "Contact us for a quote. We scope Launchpad and ongoing work to the shop after a short discovery call. Email discovery@marsdesigns.io or use the form at https://marsdesigns.io/#contact.",
           },
         },
         {
