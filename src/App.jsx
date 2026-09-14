@@ -51,10 +51,6 @@ function Logo({ size = 28 }) {
   );
 }
 
-function ThinLine({ width = "100%", opacity = 0.3 }) {
-  return <div style={{ width, height: 1, background: ACCENT, opacity, margin: "0 auto" }} />;
-}
-
 function SectionTitle({ label, title, align = "center" }) {
   return (
     <div style={{ textAlign: align, marginBottom: 48 }}>
@@ -126,14 +122,31 @@ function HomePage() {
     { num: "06", title: "Launch & Support", desc: "Go live. Full documentation handoff. You own everything. We're here when you need us." },
   ];
 
-  const agentTypes = [
-    { title: "Intake Agent", desc: "Captures leads, qualifies, routes" },
-    { title: "Scheduling Agent", desc: "Books meetings, sends reminders" },
-    { title: "Support Agent", desc: "Answers FAQs, escalates edge cases" },
-    { title: "Reporting Agent", desc: "Daily summaries, KPI dashboards" },
+  const grokBotProducts = [
+    {
+      title: "Grok Bots",
+      line: "The full fleet setup for a small shop that wants bots that actually run the week.",
+      bullets: [
+        "Rooms and lanes so each bot has a clear job",
+        "Named owners so someone is accountable",
+        "Playbooks for the work that keeps sitting",
+        "Connectors to the tools you already use",
+        "Handoff so your team can run it without us",
+      ],
+      primary: true,
+    },
+    {
+      title: "Grok Bots for Enterprise",
+      line: "Same shape when you have more seats and more than one owner — not the first pitch for a single-shop cold call.",
+      bullets: [
+        "Multi-owner rooms and lanes",
+        "Playbooks scaled across teams",
+        "Connectors and handoff for larger stacks",
+        "Built for multi-seat teams",
+      ],
+      primary: false,
+    },
   ];
-
-  const agentFeatures = ["Custom agent architecture & design", "Business knowledge base integration", "Tool connections (CRM, calendar, email)", "Guardrails & safety testing", "Sandbox deployment before going live", "Full documentation in your GitHub repo", "Hands-on training for your team", "90-day post-deployment support"];
 
   const coordinationCards = [
     { num: "01", title: "Roles", desc: "Each specialist agent has a clear job — intake, CRM, follow-up — so the team knows who owns the next step. No mystery wiring.", tags: ["Specialist Roles", "Clear Ownership"] },
@@ -251,45 +264,52 @@ function HomePage() {
         </div>
       </section>
 
-      {/* CUSTOM AGENTS */}
-      <section style={{ padding: "100px 24px", maxWidth: 1100, margin: "0 auto" }}>
-        <SectionTitle label="AI Agents" title="AI AGENT DEVELOPMENT" />
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 40, alignItems: "start" }}>
-          <FadeIn>
-            <div>
-              <p style={{ fontSize: 16, lineHeight: 1.8, color: TEXT, marginBottom: 16 }}>Stop repeating yourself. We build purpose-built AI agents that handle entire workflows autonomously — from intake to execution to reporting — so your team can focus on the work that actually requires a human.</p>
-              <p style={{ fontSize: 16, lineHeight: 1.8, color: MUTED, marginBottom: 24 }}>Each agent is trained on your business data, connected to your tools, and deployed with guardrails. They don't hallucinate your SOPs — they follow them.</p>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
-                {agentTypes.map((a, i) => (
-                  <div key={i} style={{ padding: 14, border: `1px solid ${ACCENT}12`, borderLeft: `2px solid ${ACCENT}` }}>
-                    <div style={{ fontSize: 13, fontWeight: 700, color: ACCENT, letterSpacing: 2, marginBottom: 4 }}>{a.title}</div>
-                    <div style={{ fontSize: 12, color: MUTED }}>{a.desc}</div>
+      {/* GROK BOTS */}
+      <section id="grok-bots" style={{ padding: "100px 24px", maxWidth: 1100, margin: "0 auto" }}>
+        <SectionTitle label="Grok Bots" title="GROK BOTS" />
+        <FadeIn>
+          <p style={{ textAlign: "center", fontSize: 16, color: MUTED, lineHeight: 1.7, maxWidth: 650, margin: "0 auto 40px" }}>Named Grok Bot fleets for your shop — rooms, lanes, owners, playbooks, connectors, and a clean handoff. You own what we build.</p>
+        </FadeIn>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20, alignItems: "stretch" }}>
+          {grokBotProducts.map((product, i) => (
+            <FadeIn key={product.title} delay={i * 0.08} style={{ height: "100%" }}>
+              <div style={{ padding: 28, background: product.primary ? SURFACE : BG, border: `1px solid ${product.primary ? ACCENT + "30" : ACCENT + "12"}`, height: "100%", position: "relative", overflow: "hidden", boxSizing: "border-box" }}>
+                <div style={{ position: "absolute", top: 0, left: 0, width: "100%", height: 2, background: product.primary ? `linear-gradient(90deg, ${ACCENT}, transparent)` : `linear-gradient(90deg, ${ACCENT}40, transparent)` }} />
+                <h3 style={{ fontSize: 16, fontFamily: "'Orbitron', sans-serif", fontWeight: 700, color: "#FFF", margin: "0 0 12px", letterSpacing: 1 }}>{product.title}</h3>
+                <p style={{ fontSize: 14, color: MUTED, lineHeight: 1.7, margin: "0 0 16px" }}>{product.line}</p>
+                {product.bullets.map((bullet) => (
+                  <div key={bullet} style={{ display: "flex", gap: 10, alignItems: "flex-start", marginBottom: 10, fontSize: 13, color: TEXT }}>
+                    <span style={{ color: ACCENT, fontSize: 10, marginTop: 3 }}>&#9656;</span><span>{bullet}</span>
                   </div>
                 ))}
               </div>
-            </div>
-          </FadeIn>
-          <FadeIn delay={0.15}>
-            <div style={{ padding: 28, background: SURFACE, border: `1px solid ${ACCENT}12`, position: "relative", overflow: "hidden" }}>
-              <div style={{ position: "absolute", top: 0, left: 0, width: "100%", height: 2, background: `linear-gradient(90deg, ${ACCENT}, transparent)` }} />
-              <div style={{ fontSize: 11, letterSpacing: 4, color: ACCENT, marginBottom: 16, fontWeight: 700 }}>WHAT'S INCLUDED</div>
-              {agentFeatures.map((f, i) => (
-                <div key={i} style={{ display: "flex", gap: 10, alignItems: "flex-start", marginBottom: 10, fontSize: 13, color: TEXT }}>
-                  <span style={{ color: ACCENT, fontSize: 10, marginTop: 3 }}>&#9656;</span><span>{f}</span>
-                </div>
-              ))}
-              <ThinLine opacity={0.15} />
-              <button onClick={() => scrollTo("contact")} style={{ width: "100%", marginTop: 16, padding: "12px 0", fontSize: 12, letterSpacing: 3, cursor: "pointer", fontFamily: "'Rajdhani', sans-serif", fontWeight: 700, textTransform: "uppercase", background: ACCENT, color: "#FFF", border: "none" }}>Contact us for a quote</button>
-            </div>
-          </FadeIn>
+            </FadeIn>
+          ))}
         </div>
+        <FadeIn delay={0.2}>
+          <div style={{ marginTop: 20, padding: 20, border: `1px dashed ${ACCENT}15` }}>
+            <div style={{ fontSize: 13, fontWeight: 700, color: TEXT, letterSpacing: 1, marginBottom: 6 }}>Claude Teams setup</div>
+            <p style={{ fontSize: 14, color: MUTED, lineHeight: 1.7, margin: 0 }}>Already living in Claude? Same rooms, lanes, owners, playbooks, connectors, and handoff — on Claude Max or Teams.</p>
+          </div>
+        </FadeIn>
+        <FadeIn delay={0.25}>
+          <p style={{ textAlign: "center", fontSize: 14, color: "#999", lineHeight: 1.7, margin: "24px 0 0" }}>Training: Learn the craft at <a href="https://agenticacademy.marsdesigns.io" style={{ color: ACCENT }}>https://agenticacademy.marsdesigns.io</a> — Academy trains people; Grok Bots is what they run.</p>
+        </FadeIn>
+        <FadeIn delay={0.3}>
+          <div style={{ textAlign: "center", marginTop: 28 }}>
+            <button onClick={() => scrollTo("contact")} style={{ padding: "14px 36px", background: ACCENT, color: "#FFF", border: "none", fontSize: 13, letterSpacing: 3, cursor: "pointer", fontFamily: "'Rajdhani', sans-serif", fontWeight: 700, textTransform: "uppercase" }}>Contact us for a quote</button>
+          </div>
+        </FadeIn>
       </section>
 
       {/* MULTI-AGENT SYSTEMS */}
       <section style={{ padding: "100px 24px", background: SURFACE }}>
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
           <SectionTitle label="Multi-Agent Systems" title="AGENT TEAMS THAT COORDINATE" />
-          <FadeIn><p style={{ textAlign: "center", fontSize: 16, color: MUTED, lineHeight: 1.7, maxWidth: 650, margin: "0 auto 40px" }}>One agent is powerful. A team of specialist agents that hand off and coordinate across your tools? That's where the real transformation happens. We design multi-agent systems so intake, CRM, and follow-up agents work together — without you shepherding every step.</p></FadeIn>
+          <FadeIn>
+            <p style={{ textAlign: "center", fontSize: 14, color: "#999", lineHeight: 1.7, maxWidth: 650, margin: "0 auto 16px" }}>Once the fleet is up, specialist bots hand off and coordinate across your tools.</p>
+            <p style={{ textAlign: "center", fontSize: 16, color: MUTED, lineHeight: 1.7, maxWidth: 650, margin: "0 auto 40px" }}>One agent is powerful. A team of specialist agents that hand off and coordinate across your tools? That's where the real transformation happens. We design multi-agent systems so intake, CRM, and follow-up agents work together — without you shepherding every step.</p>
+          </FadeIn>
           <FadeIn delay={0.1}>
             <div style={{ background: BG, border: `1px solid ${ACCENT}08`, padding: "32px 24px", marginBottom: 32, textAlign: "center" }}>
               <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 12, flexWrap: "wrap" }}>

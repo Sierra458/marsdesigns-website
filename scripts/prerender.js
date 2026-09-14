@@ -14,7 +14,7 @@ const pages = [
     file: "index.html",
     title: "MARS Designs — AI That Works For Your Business",
     description:
-      "MARS Designs is a Texas AI consultancy. We set up Grok, Claude, and Gemini, custom skills, AI agents, and answer engine optimization for small businesses. Contact us for a quote at discovery@marsdesigns.io.",
+      "MARS Designs is a Texas AI consultancy. We set up Grok, Claude, and Gemini, custom skills, Grok Bots, and answer engine optimization for small businesses. Contact us for a quote at discovery@marsdesigns.io.",
     canonical: "https://marsdesigns.io/",
   },
   {
@@ -113,6 +113,12 @@ const required = [
   "Gemini",
   "AGENT TEAMS THAT COORDINATE",
   "specialist agents that hand off and coordinate",
+  "GROK BOTS",
+  "Named Grok Bot fleets for your shop",
+  "Grok Bots for Enterprise",
+  "Claude Teams setup",
+  "agenticacademy.marsdesigns.io",
+  "Once the fleet is up, specialist bots hand off and coordinate across your tools.",
 ];
 const forbidden = [
   "$2,500",
@@ -140,6 +146,7 @@ const forbidden = [
   "Return on investment",
   "Admin task reduction",
   "61hrs",
+  "AI AGENT DEVELOPMENT",
 ];
 const missing = required.filter((needle) => !homepage.includes(needle));
 if (missing.length) {
