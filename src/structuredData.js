@@ -14,7 +14,7 @@ export const structuredData = {
       url: SITE_URL,
       email: CONTACT_EMAIL,
       description:
-        "MARS Designs is a Texas AI consultancy that sets up AI accounts, custom skills, AI agents, multi-agent systems, and answer engine optimization for small businesses. Contact us for a quote.",
+        "MARS Designs is a Texas AI consultancy that sets up AI accounts, custom skills, Grok Bots, multi-agent systems, and answer engine optimization for small businesses. Contact us for a quote.",
       foundingDate: "2026",
       areaServed: {
         "@type": "Country",
@@ -27,7 +27,7 @@ export const structuredData = {
       },
       knowsAbout: [
         "Answer engine optimization",
-        "AI agents",
+        "Grok Bots",
         "Multi-agent systems",
         "Custom AI skills",
         "Grok",
@@ -57,10 +57,24 @@ export const structuredData = {
         },
         {
           "@type": "Offer",
-          name: "AI agents",
+          name: "Grok Bots",
           description:
-            "Custom AI agents, multi-system agents, multi-agent systems, and answer engine optimization. Contact us for a quote.",
-          url: `${SITE_URL}/#investment`,
+            "Named Grok Bot fleets for your shop — rooms, lanes, owners, playbooks, connectors, and a clean handoff. You own what we build. Contact us for a quote.",
+          url: `${SITE_URL}/#grok-bots`,
+        },
+        {
+          "@type": "Offer",
+          name: "Grok Bots for Enterprise",
+          description:
+            "Same shape when you have more seats and more than one owner. Multi-owner rooms and lanes, playbooks scaled across teams, connectors and handoff for larger stacks. Contact us for a quote.",
+          url: `${SITE_URL}/#grok-bots`,
+        },
+        {
+          "@type": "Offer",
+          name: "Claude Teams setup",
+          description:
+            "Already living in Claude? Same rooms, lanes, owners, playbooks, connectors, and handoff — on Claude Max or Teams. Contact us for a quote.",
+          url: `${SITE_URL}/#grok-bots`,
         },
       ],
     },
@@ -80,7 +94,7 @@ export const structuredData = {
           name: "What does MARS Designs do?",
           acceptedAnswer: {
             "@type": "Answer",
-            text: "MARS Designs is a Texas AI consultancy that helps small businesses adopt practical AI: account setup, custom skills, AI agents, multi-agent systems, and answer engine optimization (AEO).",
+            text: "MARS Designs is a Texas AI consultancy that helps small businesses adopt practical AI: account setup, custom skills, Grok Bots, multi-agent systems, and answer engine optimization (AEO).",
           },
         },
         {
