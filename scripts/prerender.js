@@ -118,6 +118,13 @@ const required = [
   "Grok Bots for Enterprise",
   "Claude Teams setup",
   "agenticacademy.marsdesigns.io",
+  "Open enrollment. Core plus Grok, Claude, and Gemini tracks.",
+  "Academy trains people; Grok Bots is what they run.",
+  "Buy Full ($597)",
+  "Start Core ($397)",
+  "Stage 01 Teaser",
+  "https://agenticacademy.marsdesigns.io/signup?next=/tracks",
+  "https://agenticacademy.marsdesigns.io/sample",
   "Once the fleet is up, specialist bots hand off and coordinate across your tools.",
 ];
 const forbidden = [
@@ -147,6 +154,11 @@ const forbidden = [
   "Admin task reduction",
   "61hrs",
   "AI AGENT DEVELOPMENT",
+  "waitlist",
+  "Waitlist",
+  "invite-only",
+  "invite only",
+  "Invite-only",
 ];
 const missing = required.filter((needle) => !homepage.includes(needle));
 if (missing.length) {
@@ -156,8 +168,17 @@ const leaked = forbidden.filter((needle) => homepage.includes(needle));
 if (leaked.length) {
   throw new Error(`Homepage HTML still contains retired pricing copy: ${leaked.join(", ")}`);
 }
-if (homepage.includes("$")) {
-  throw new Error("Homepage HTML still contains a dollar sign");
+const allowedAcademyPrices = ["$597", "$397"];
+let homepageWithoutAcademyPrices = homepage;
+for (const price of allowedAcademyPrices) {
+  const hits = homepage.split(price).length - 1;
+  if (hits !== 1) {
+    throw new Error(`Homepage HTML must contain ${price} exactly once (found ${hits})`);
+  }
+  homepageWithoutAcademyPrices = homepageWithoutAcademyPrices.replaceAll(price, "");
+}
+if (homepageWithoutAcademyPrices.includes("$")) {
+  throw new Error("Homepage HTML still contains a non-Academy dollar sign");
 }
 
 for (const file of ["robots.txt", "sitemap.xml", path.join("privacy", "index.html")]) {
