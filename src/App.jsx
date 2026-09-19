@@ -293,7 +293,16 @@ function HomePage() {
           </div>
         </FadeIn>
         <FadeIn delay={0.25}>
-          <p style={{ textAlign: "center", fontSize: 14, color: "#999", lineHeight: 1.7, margin: "24px 0 0" }}>Training: Learn the craft at <a href="https://agenticacademy.marsdesigns.io" style={{ color: ACCENT }}>https://agenticacademy.marsdesigns.io</a> — Academy trains people; Grok Bots is what they run.</p>
+          <div style={{ marginTop: 24, padding: 28, border: `1px solid ${ACCENT}15`, textAlign: "center" }}>
+            <div style={{ fontSize: 11, color: ACCENT, letterSpacing: 4, textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>Agentic AI Academy</div>
+            <p style={{ fontSize: 16, color: TEXT, lineHeight: 1.7, margin: "0 0 8px" }}>Open enrollment. Core plus Grok, Claude, and Gemini tracks.</p>
+            <p style={{ fontSize: 14, color: MUTED, lineHeight: 1.7, margin: "0 0 24px" }}>Academy trains people; Grok Bots is what they run.</p>
+            <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
+              <a href="https://agenticacademy.marsdesigns.io/signup?next=/tracks" style={{ padding: "14px 28px", background: ACCENT, color: "#FFF", fontSize: 13, letterSpacing: 2, fontFamily: "'Rajdhani', sans-serif", fontWeight: 700, textTransform: "uppercase", display: "inline-block" }}>Buy Full ($597)</a>
+              <a href="https://agenticacademy.marsdesigns.io/signup?next=/tracks" style={{ padding: "14px 28px", background: "transparent", color: ACCENT, border: `1px solid ${ACCENT}40`, fontSize: 13, letterSpacing: 2, fontFamily: "'Rajdhani', sans-serif", fontWeight: 500, textTransform: "uppercase", display: "inline-block" }}>Start Core ($397)</a>
+              <a href="https://agenticacademy.marsdesigns.io/sample" style={{ padding: "14px 28px", background: "transparent", color: ACCENT, border: `1px solid ${ACCENT}40`, fontSize: 13, letterSpacing: 2, fontFamily: "'Rajdhani', sans-serif", fontWeight: 500, textTransform: "uppercase", display: "inline-block" }}>Stage 01 Teaser</a>
+            </div>
+          </div>
         </FadeIn>
         <FadeIn delay={0.3}>
           <div style={{ textAlign: "center", marginTop: 28 }}>
