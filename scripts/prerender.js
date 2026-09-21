@@ -123,7 +123,9 @@ const required = [
   "Buy Full ($597)",
   "Start Core ($397)",
   "Stage 01 Teaser",
-  "https://agenticacademy.marsdesigns.io/signup?next=/tracks",
+  // renderToString escapes "&" as "&amp;" inside href attributes.
+  "https://agenticacademy.marsdesigns.io/signup?next=/tracks&amp;sku=academy_full",
+  "https://agenticacademy.marsdesigns.io/signup?next=/tracks&amp;sku=academy_core",
   "https://agenticacademy.marsdesigns.io/sample",
   "Once the fleet is up, specialist bots hand off and coordinate across your tools.",
 ];
