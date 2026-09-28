@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Analytics } from "@vercel/analytics/react";
 import PrivacyPage from "./PrivacyPage";
 
 const ACCENT = "#E8491C";
@@ -67,10 +68,12 @@ function Tag({ children }) {
 
 export default function App({ url }) {
   const path = getPath(url);
-  if (path === "/privacy" || path === "/privacy-policy") {
-    return <PrivacyPage />;
-  }
-  return <HomePage />;
+  return (
+    <>
+      {path === "/privacy" || path === "/privacy-policy" ? <PrivacyPage /> : <HomePage />}
+      <Analytics />
+    </>
+  );
 }
 
 function HomePage() {
