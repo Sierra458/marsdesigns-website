@@ -3,6 +3,53 @@ export const CONTACT_EMAIL = "discovery@marsdesigns.io";
 export const BUSINESS_NAME = "MARS Designs";
 export const LEGAL_NAME = "MARS Designs LLC";
 
+export const FREE_AUDIT_LABEL = "Get a free missed-email & dead-estimate audit";
+export const INTEREST_AUDIT = "Free audit";
+export const INTEREST_TALK = "Talk to us";
+
+export const faqs = [
+  {
+    question: "What is a Grok Bot?",
+    answer:
+      "A Grok Bot is an AI helper we build for one back-office job in your business. It can sort the inbox and draft replies, follow up on estimates that went quiet, or draft outreach for you to review. It prepares the work. You decide what actually goes out.",
+  },
+  {
+    question: "What jobs can it take off my plate?",
+    answer:
+      "We start with three jobs owners already recognize. One sorts your inbox and drafts replies. One follows up on estimates that never got an answer. One drafts outreach and holds it until you approve.",
+  },
+  {
+    question: "Does it send anything without me?",
+    answer:
+      "No. A Grok Bot can sort and draft, then it waits. Email and other messages stay put until you approve them. You can edit a draft or skip it.",
+  },
+  {
+    question: "Do I need to be technical?",
+    answer:
+      "No. You do not need to write code, manage a server, or learn new jargon. We set the bot up around the way the work already gets done, then show you how to review and approve. If you can read a message and tap Approve, you can run it.",
+  },
+  {
+    question: "How does the free audit work?",
+    answer:
+      "The free missed-email and dead-estimate audit looks at what is slipping: messages that never got a reply, and estimates that went quiet. You tell us how those come in today, using the form on this page or discovery@marsdesigns.io. We write back what we see and where a Grok Bot could take a job. The audit is free, and asking for it does not commit you to a build.",
+  },
+  {
+    question: "Who owns what you build?",
+    answer:
+      "You do. The bots, the instructions, and the setup we put together for your business belong to you. We hand them over with the notes your team needs to keep them running. You are not left inside a system only we can access.",
+  },
+  {
+    question: "What tools do you use?",
+    answer:
+      "Grok comes first. When a job needs another model, we use Claude, then Gemini. We connect the bots to the email and business tools you already use, and we tell you which tool does which job before anything goes live.",
+  },
+  {
+    question: "How do we get started?",
+    answer:
+      "Start with the free missed-email and dead-estimate audit. Use the form on this page — Free audit is one of the choices — or email discovery@marsdesigns.io. We read what you send and reply with what we find. If you would rather talk first, choose Talk to us and we will set a short call.",
+  },
+];
+
 export const structuredData = {
   "@context": "https://schema.org",
   "@graph": [
@@ -14,7 +61,7 @@ export const structuredData = {
       url: SITE_URL,
       email: CONTACT_EMAIL,
       description:
-        "MARS Designs is a Texas AI consultancy that sets up AI accounts, custom skills, Grok Bots, multi-agent systems, and answer engine optimization for small businesses. Contact us for a quote.",
+        "MARS Designs builds Grok Bots for small businesses. Each bot does one back-office job — inbox drafts, dead-estimate follow-up, or outreach — and nothing sends until the owner approves. Based in Texas. Start with a free missed-email and dead-estimate audit.",
       foundingDate: "2026",
       areaServed: {
         "@type": "Country",
@@ -26,55 +73,48 @@ export const structuredData = {
         addressCountry: "US",
       },
       knowsAbout: [
-        "Answer engine optimization",
         "Grok Bots",
-        "Multi-agent systems",
-        "Custom AI skills",
         "Grok",
         "Claude",
         "Gemini",
+        "Answer engine optimization",
+        "Agent teams that coordinate",
       ],
       makesOffer: [
         {
           "@type": "Offer",
-          name: "Launchpad",
+          name: "Free missed-email and dead-estimate audit",
           description:
-            "One-time AI setup: account configuration, hardware assessment, custom AI skills, training, GitHub repository, sandbox testing, and post-launch support. Contact us for a quote after a short discovery call.",
-          url: `${SITE_URL}/#investment`,
-        },
-        {
-          "@type": "Offer",
-          name: "Retainer",
-          description:
-            "Ongoing optimization, AEO monitoring, prompt and agent updates, GitHub maintenance, and priority support. Contact us for a quote.",
-          url: `${SITE_URL}/#investment`,
-        },
-        {
-          "@type": "Offer",
-          name: "Custom AI skills",
-          description: "Purpose-built Claude or OpenClaw skills with specialized prompts, tools, and knowledge bases. Contact us for a quote.",
-          url: `${SITE_URL}/#services`,
+            "A free look at messages that never got a reply and estimates that went quiet. We write back what we see and where a Grok Bot could take a job. Asking for the audit does not commit you to a build.",
+          url: `${SITE_URL}/#contact`,
         },
         {
           "@type": "Offer",
           name: "Grok Bots",
           description:
-            "Named Grok Bot fleets for your shop — rooms, lanes, owners, playbooks, connectors, and a clean handoff. You own what we build. Contact us for a quote.",
+            "Named Grok Bots for a small shop. Each bot does one job, a person on your team owns it, and nothing sends until you approve. You own what we build.",
           url: `${SITE_URL}/#grok-bots`,
         },
         {
           "@type": "Offer",
           name: "Grok Bots for Enterprise",
           description:
-            "Same shape when you have more seats and more than one owner. Multi-owner rooms and lanes, playbooks scaled across teams, connectors and handoff for larger stacks. Contact us for a quote.",
+            "The same one-job Grok Bots when you have more seats and more than one owner. Built for multi-seat teams. You own what we build.",
           url: `${SITE_URL}/#grok-bots`,
         },
         {
           "@type": "Offer",
-          name: "Claude Teams setup",
+          name: "Launchpad",
           description:
-            "Already living in Claude? Same rooms, lanes, owners, playbooks, connectors, and handoff — on Claude Max or Teams. Contact us for a quote.",
-          url: `${SITE_URL}/#grok-bots`,
+            "One-time setup of the Grok Bots you choose, including accounts, a safe trial, training, and the files. You own what we build. Scoped after a free audit or a short call.",
+          url: `${SITE_URL}/#investment`,
+        },
+        {
+          "@type": "Offer",
+          name: "Ongoing help",
+          description:
+            "Updates, answer-engine checks, and priority support after a build. Scoped to the shop after a free audit or a short call.",
+          url: `${SITE_URL}/#investment`,
         },
       ],
     },
@@ -88,40 +128,14 @@ export const structuredData = {
     {
       "@type": "FAQPage",
       "@id": `${SITE_URL}/#faq`,
-      mainEntity: [
-        {
-          "@type": "Question",
-          name: "What does MARS Designs do?",
-          acceptedAnswer: {
-            "@type": "Answer",
-            text: "MARS Designs is a Texas AI consultancy that helps small businesses adopt practical AI: account setup, custom skills, Grok Bots, multi-agent systems, and answer engine optimization (AEO).",
-          },
+      mainEntity: faqs.map((faq) => ({
+        "@type": "Question",
+        name: faq.question,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: faq.answer,
         },
-        {
-          "@type": "Question",
-          name: "Where is MARS Designs based?",
-          acceptedAnswer: {
-            "@type": "Answer",
-            text: "MARS Designs is based in Texas and available everywhere.",
-          },
-        },
-        {
-          "@type": "Question",
-          name: "How do I get a quote?",
-          acceptedAnswer: {
-            "@type": "Answer",
-            text: "Contact us for a quote. We scope Launchpad and ongoing work to the shop after a short discovery call. Email discovery@marsdesigns.io or use the form at https://marsdesigns.io/#contact.",
-          },
-        },
-        {
-          "@type": "Question",
-          name: "How do I contact MARS Designs?",
-          acceptedAnswer: {
-            "@type": "Answer",
-            text: "Email discovery@marsdesigns.io or use the discovery form at https://marsdesigns.io/#contact to book a free 30-minute call.",
-          },
-        },
-      ],
+      })),
     },
   ],
 };

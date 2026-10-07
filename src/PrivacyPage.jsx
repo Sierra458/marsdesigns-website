@@ -14,11 +14,11 @@ const sections = [
   },
   {
     t: "2. INFORMATION WE COLLECT",
-    p: "Through our website contact form we collect the information you choose to send: name, email address, business name, and message. If you email discovery@marsdesigns.io, we collect the contents of that correspondence, including any contact details you include. We may also automatically collect technical data such as IP address, browser type, operating system, pages viewed, and approximate location derived from IP, via server logs or cookies.",
+    p: "Through our website contact form we collect the information you choose to send: name, email address, business name, the request you select (a free audit or a call), and message. If you email discovery@marsdesigns.io, we collect the contents of that correspondence, including any contact details you include. We may also automatically collect technical data such as IP address, browser type, operating system, pages viewed, and approximate location derived from IP, via server logs or cookies.",
   },
   {
     t: "3. HOW WE USE YOUR INFORMATION",
-    p: "We use this information to respond to discovery-call requests and service inquiries; provide and improve our consulting services; send transactional messages related to a request you made; send marketing communications only with your consent; maintain security and prevent abuse; and comply with law.",
+    p: "We use this information to respond to free-audit requests, discovery-call requests, and service inquiries; provide and improve our consulting services; send transactional messages related to a request you made; send marketing communications only with your consent; maintain security and prevent abuse; and comply with law.",
   },
   {
     t: "4. COMMUNICATIONS & CONSENT",
