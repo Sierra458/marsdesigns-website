@@ -9,19 +9,19 @@ export const INTEREST_TALK = "Talk to us";
 
 export const faqs = [
   {
-    question: "What is a Grok Bot?",
+    question: "What is an AI assistant from Mars Designs?",
     answer:
-      "A Grok Bot is an AI helper we build for one back-office job in your business. It can sort the inbox and draft replies, follow up on estimates that went quiet, or draft outreach for you to review. It prepares the work. You decide what actually goes out.",
+      "An AI assistant from Mars Designs takes one back-office job: your inbox sorted and drafted, dead estimates followed up, or outreach drafted for your approval. It prepares the work and waits for you. We call that assistant a Grok Bot, and it is built on Grok.",
   },
   {
     question: "What jobs can it take off my plate?",
     answer:
-      "We start with three jobs owners already recognize. One sorts your inbox and drafts replies. One follows up on estimates that never got an answer. One drafts outreach and holds it until you approve.",
+      "We start with three jobs owners already recognize. One assistant sorts your inbox and drafts replies. One follows up on estimates that never got an answer. One drafts outreach and holds it until you approve.",
   },
   {
     question: "Does it send anything without me?",
     answer:
-      "No. A Grok Bot can sort and draft, then it waits. Email and other messages stay put until you approve them. You can edit a draft or skip it.",
+      "No. An assistant can sort and draft, then it waits. Email and other messages stay put until you approve them. You can edit a draft or skip it.",
   },
   {
     question: "Do I need to be technical?",
@@ -61,7 +61,7 @@ export const structuredData = {
       url: SITE_URL,
       email: CONTACT_EMAIL,
       description:
-        "MARS Designs builds Grok Bots for small businesses. Each bot does one back-office job — inbox drafts, dead-estimate follow-up, or outreach — and nothing sends until the owner approves. Based in Texas. Start with a free missed-email and dead-estimate audit.",
+        "MARS Designs builds AI assistants for small businesses. Each one takes a back-office job — inbox sorted and drafted, dead estimates followed up, or outreach drafted for approval — and nothing sends until the owner approves. The assistants are called Grok Bots and are built on Grok. Based in Texas. Start with a free missed-email and dead-estimate audit.",
       foundingDate: "2026",
       areaServed: {
         "@type": "Country",

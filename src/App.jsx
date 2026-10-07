@@ -153,17 +153,17 @@ function HomePage() {
     {
       icon: "01",
       title: "Your inbox, sorted and drafted",
-      desc: "A Grok Bot reads what came in, sorts it, and drafts the replies. You see the draft and tap Approve. Nothing sends on its own.",
+      desc: "An assistant reads what came in, sorts it, and drafts the replies. You see the draft and tap Approve. Nothing sends on its own.",
     },
     {
       icon: "02",
       title: "Dead estimates, followed up",
-      desc: "Estimates that went quiet get a follow-up drafted for you. The bot lines up who to nudge and what to say. You approve each one before it goes out.",
+      desc: "Estimates that went quiet get a follow-up drafted for you. The assistant lines up who to nudge and what to say. You approve each one before it goes out.",
     },
     {
       icon: "03",
       title: "Outreach, drafted for your approval",
-      desc: "When you need to reach out, the bot drafts it and stops. You edit or approve. It does not send a campaign while you are away from the desk.",
+      desc: "When you need to reach out, the assistant drafts it and stops. You edit or approve. It does not send a campaign while you are away from the desk.",
     },
   ];
 
@@ -274,10 +274,10 @@ function HomePage() {
         <div className="wrap" style={{ position: "relative", zIndex: 1, paddingTop: 48, paddingBottom: 48 }}>
           <FadeIn><div className="eyebrow">BASED IN TEXAS. AVAILABLE EVERYWHERE.</div></FadeIn>
           <FadeIn delay={0.15}>
-            <h1 className="hero-title">AI THAT WORKS<br /><span className="hero-accent">FOR YOUR BUSINESS</span></h1>
+            <h1 className="hero-title">AI ASSISTANTS<br /><span className="hero-accent">FOR ONE JOB EACH</span></h1>
           </FadeIn>
           <FadeIn delay={0.3}>
-            <p className="hero-lead">Grok Bots for small businesses. Each bot does one back-office job — sorting the inbox, following up dead estimates, or drafting outreach — and waits for your approval before anything sends.</p>
+            <p className="hero-lead">Each assistant takes one back-office job — your inbox sorted and drafted, dead estimates followed up, or outreach drafted for your approval — and waits until you approve.</p>
           </FadeIn>
           <FadeIn delay={0.45}>
             <div className="cta-row">
@@ -324,9 +324,9 @@ function HomePage() {
 
       <section id="services" className="block block-surface">
         <div className="wrap">
-          <SectionTitle label="What a Grok Bot does" title="ONE JOB AT A TIME" />
+          <SectionTitle label="The jobs" title="ONE JOB AT A TIME" />
           <FadeIn>
-            <p style={{ textAlign: "center", fontSize: 16, color: MUTED, lineHeight: 1.7, maxWidth: 640, margin: "-12px auto 36px" }}>Three jobs owners already recognize. A Grok Bot does one of them, then waits for you.</p>
+            <p style={{ textAlign: "center", fontSize: 16, color: MUTED, lineHeight: 1.7, maxWidth: 640, margin: "-12px auto 36px" }}>AI assistants that each take one back-office job, then wait for your approval.</p>
           </FadeIn>
           <div className="grid-3">
             {jobs.map((s, i) => (
@@ -342,20 +342,20 @@ function HomePage() {
           </div>
 
           <FadeIn delay={0.2}>
-            <h3 className="section-heading" style={{ textAlign: "center", marginTop: 64, marginBottom: 8, fontSize: 22 }}>SEE IT WORKING</h3>
-            <p style={{ textAlign: "center", fontSize: 15, color: MUTED, lineHeight: 1.6, maxWidth: 520, margin: "0 auto" }}>Short demos. The inbox bot sorts mail, drafts replies, and waits on Approve.</p>
+            <h3 className="section-heading" style={{ textAlign: "center", marginTop: 64, marginBottom: 8, fontSize: 22 }}>HOW IT WORKS</h3>
+            <p style={{ textAlign: "center", fontSize: 15, color: MUTED, lineHeight: 1.6, maxWidth: 520, margin: "0 auto" }}>Short explainers: how an inbox assistant sorts, drafts, and waits for your Approve.</p>
             <div className="video-row">
               <DemoVideo
                 src="/media/mars-email-grok-bot.mp4"
                 poster="/media/mars-email-grok-bot-poster.jpg"
-                label="Demo of a Grok Bot sorting email, drafting replies, and waiting for Approve"
-                caption="Inbox bot: it sorts the mail, drafts the replies, and waits on Approve."
+                label="Explainer of an inbox assistant sorting email, drafting replies, and waiting for Approve"
+                caption="An inbox assistant sorts the mail, drafts the replies, and waits for your Approve."
               />
               <DemoVideo
                 src="/media/mars-grok-bots-promo.mp4"
                 poster="/media/mars-grok-bots-promo-poster.jpg"
-                label="Promo of Grok Bots for small businesses, one job each"
-                caption="Grok Bots: one job each, for the work that keeps sitting."
+                label="Explainer of one assistant for each back-office job, held for approval"
+                caption="One assistant, one job — inbox, dead estimates, or outreach — drafted, then held for approval."
               />
             </div>
           </FadeIn>
@@ -530,7 +530,7 @@ function HomePage() {
 
       <section id="process" className="block block-surface">
         <div className="wrap">
-          <SectionTitle label="How it works" title="OUR PROCESS" />
+          <SectionTitle label="The steps" title="OUR PROCESS" />
           <div className="grid-3">
             {processSteps.map((s, i) => (
               <FadeIn key={s.num} delay={i * 0.08}>
@@ -605,7 +605,7 @@ function HomePage() {
             {formState.interest === INTEREST_TALK && (
               <p className="form-note">Talk to us is selected. Tell us a little about the shop and we will set a short call.</p>
             )}
-            <textarea className="field" placeholder="Tell us about your business and what you're hoping a Grok Bot can help with..." rows={4} aria-label="Message" value={formState.message} onChange={(e) => setFormState({ ...formState, message: e.target.value })} style={{ resize: "vertical", marginBottom: 16 }} />
+            <textarea className="field" placeholder="Tell us about your business and what you're hoping an assistant can help with..." rows={4} aria-label="Message" value={formState.message} onChange={(e) => setFormState({ ...formState, message: e.target.value })} style={{ resize: "vertical", marginBottom: 16 }} />
             {formError && <div style={{ color: "#cc3333", fontSize: 14, marginBottom: 12 }}>{formError}</div>}
             <button type="submit" className="cta cta-primary" disabled={formStatus === "sending"} style={{ width: "100%", letterSpacing: 2 }}>
               {submitLabel}

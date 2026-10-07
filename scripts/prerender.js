@@ -14,7 +14,7 @@ const pages = [
     file: "index.html",
     title: "MARS Designs — AI That Works For Your Business",
     description:
-      "Grok Bots for small businesses. One job each: inbox drafts, dead-estimate follow-up, or outreach, and nothing sends until you approve. Free missed-email and dead-estimate audit. Based in Texas.",
+      "AI assistants for small businesses. One job each: inbox sorted and drafted, dead estimates followed up, or outreach drafted for approval. Nothing sends until you approve. The product is Grok Bots. Free missed-email and dead-estimate audit. Based in Texas.",
     canonical: "https://marsdesigns.io/",
   },
   {
@@ -140,6 +140,11 @@ const required = [
   "/media/mars-email-grok-bot-poster.jpg",
   "/media/mars-grok-bots-promo-poster.jpg",
   "Grok comes first.",
+  "HOW IT WORKS",
+  "Short explainers: how an inbox assistant sorts, drafts, and waits for your Approve.",
+  "What is an AI assistant from Mars Designs?",
+  "We call that assistant a Grok Bot, and it is built on Grok.",
+  "AI ASSISTANTS",
 ];
 const forbidden = [
   "$2,500",
@@ -178,6 +183,8 @@ const forbidden = [
   "GitHub Repository",
   "rooms",
   "lanes",
+  "SEE IT WORKING",
+  "What is a Grok Bot?",
 ];
 const missing = required.filter((needle) => !homepage.includes(needle));
 for (const faq of faqs) {
