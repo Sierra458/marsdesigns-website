@@ -224,6 +224,15 @@ for (const price of allowedAcademyPrices) {
 if (homepageWithoutAcademyPrices.includes("$")) {
   throw new Error("Homepage HTML still contains a non-Academy dollar sign");
 }
+const xaiPhrase = "Grok Bots from xAI";
+const xaiHits = homepage.split(xaiPhrase).length - 1;
+// meta description, hero, visible FAQ answer, FAQPage JSON-LD answer, organization description
+if (xaiHits !== 5) {
+  throw new Error(`Homepage must contain "${xaiPhrase}" exactly 5 times (found ${xaiHits})`);
+}
+if (/property="og:description" content="[^"]*from xAI/.test(homepage)) {
+  throw new Error("Open Graph description must not repeat from xAI");
+}
 
 for (const file of [
   "robots.txt",

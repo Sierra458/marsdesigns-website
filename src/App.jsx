@@ -188,7 +188,7 @@ function HomePage() {
   const grokBotProducts = [
     {
       title: "Grok Bots setup",
-      line: "The full setup for a small shop that wants assistants running the week, on Grok Bots from xAI.",
+      line: "The full setup for a small shop that wants assistants running the week, on Grok Bots.",
       bullets: [
         "Each assistant has one job",
         "A person on your team owns that job",
@@ -326,7 +326,7 @@ function HomePage() {
         <div className="wrap">
           <SectionTitle label="The jobs" title="ONE JOB AT A TIME" />
           <FadeIn>
-            <p style={{ textAlign: "center", fontSize: 16, color: MUTED, lineHeight: 1.7, maxWidth: 640, margin: "-12px auto 36px" }}>AI assistants that each take one back-office job, then wait for your approval. We set them up on Grok Bots from xAI.</p>
+            <p style={{ textAlign: "center", fontSize: 16, color: MUTED, lineHeight: 1.7, maxWidth: 640, margin: "-12px auto 36px" }}>AI assistants that each take one back-office job, then wait for your approval. We set them up on Grok Bots.</p>
           </FadeIn>
           <div className="grid-3">
             {jobs.map((s, i) => (
@@ -366,7 +366,7 @@ function HomePage() {
         <div className="wrap">
           <SectionTitle label="Setup service" title="GROK BOTS SETUP" />
           <FadeIn>
-            <p style={{ textAlign: "center", fontSize: 16, color: MUTED, lineHeight: 1.7, maxWidth: 650, margin: "0 auto 40px" }}>We set up, configure, and run AI assistants on Grok Bots from xAI. Each one has a single job, a person who owns it, and a handoff your team can run. You own the setup we build.</p>
+            <p style={{ textAlign: "center", fontSize: 16, color: MUTED, lineHeight: 1.7, maxWidth: 650, margin: "0 auto 40px" }}>We set up, configure, and run AI assistants on Grok Bots. Each one has a single job, a person who owns it, and a handoff your team can run. You own the setup we build.</p>
           </FadeIn>
           <div className="grid-2-tight">
             {grokBotProducts.map((product, i) => (

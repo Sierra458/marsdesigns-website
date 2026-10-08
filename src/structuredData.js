@@ -41,7 +41,7 @@ export const faqs = [
   {
     question: "What tools do you use?",
     answer:
-      "Grok comes first. The assistants run on Grok Bots from xAI, and when a job needs another model we use Claude, then Gemini. We connect them to the email and business tools you already use, and we tell you which tool does which job before anything goes live.",
+      "Grok comes first. The assistants run on Grok Bots, and when a job needs another model we use Claude, then Gemini. We connect them to the email and business tools you already use, and we tell you which tool does which job before anything goes live.",
   },
   {
     question: "How do we get started?",
@@ -92,21 +92,21 @@ export const structuredData = {
           "@type": "Offer",
           name: "Grok Bots setup",
           description:
-            "We set up, configure, and run AI assistants on Grok Bots from xAI for a small shop. Each assistant does one job, a person on your team owns it, and nothing sends until you approve. You own the setup we build.",
+            "We set up, configure, and run AI assistants on Grok Bots for a small shop. Each assistant does one job, a person on your team owns it, and nothing sends until you approve. You own the setup we build.",
           url: `${SITE_URL}/#grok-bots`,
         },
         {
           "@type": "Offer",
           name: "Grok Bots for Enterprise setup",
           description:
-            "The same setup when you have more seats and more than one owner, on Grok Bots from xAI. Built for multi-seat teams. You own the setup we build.",
+            "The same setup when you have more seats and more than one owner, on Grok Bots. Built for multi-seat teams. You own the setup we build.",
           url: `${SITE_URL}/#grok-bots`,
         },
         {
           "@type": "Offer",
           name: "Launchpad",
           description:
-            "One-time setup of the assistants you choose on Grok Bots from xAI, including accounts, a safe trial, training, and the files. You own the setup we build. Scoped after a free audit or a short call.",
+            "One-time setup of the assistants you choose on Grok Bots, including accounts, a safe trial, training, and the files. You own the setup we build. Scoped after a free audit or a short call.",
           url: `${SITE_URL}/#investment`,
         },
         {
