@@ -179,7 +179,7 @@ function HomePage() {
   const processSteps = [
     { num: "01", title: "Discovery", desc: "Free audit, or a 30-minute call. We listen first — missed email, quiet estimates, and the jobs sitting on your plate." },
     { num: "02", title: "Proposal", desc: "Clear, plain-language proposal within 48 hours. No jargon, no mystery. You'll know exactly what you're getting." },
-    { num: "03", title: "Assessment", desc: "Deep dive into your workflows. We find where a Grok Bot saves the most time." },
+    { num: "03", title: "Assessment", desc: "Deep dive into your workflows. We find where an assistant on Grok Bots saves the most time." },
     { num: "04", title: "Build", desc: "Build the bots and connect them to the tools you already use. The files are yours from day one." },
     { num: "05", title: "Test & Train", desc: "Practice space first, live work second. Hands-on training for you and your team until everyone's confident." },
     { num: "06", title: "Launch & Support", desc: "Go live. Full documentation handoff. You own everything. We're here when you need us." },
@@ -187,10 +187,10 @@ function HomePage() {
 
   const grokBotProducts = [
     {
-      title: "Grok Bots",
-      line: "The full setup for a small shop that wants bots that actually run the week.",
+      title: "Grok Bots setup",
+      line: "The full setup for a small shop that wants assistants running the week, on Grok Bots from xAI.",
       bullets: [
-        "Each bot has one job",
+        "Each assistant has one job",
         "A person on your team owns that job",
         "Written steps for the work that keeps sitting",
         "Connects to the tools you already use",
@@ -199,8 +199,8 @@ function HomePage() {
       primary: true,
     },
     {
-      title: "Grok Bots for Enterprise",
-      line: "The same one-job bots when you have more seats and more than one owner — not the first pitch for a single-shop cold call.",
+      title: "Grok Bots for Enterprise setup",
+      line: "The same setup when you have more seats and more than one owner — not the first pitch for a single-shop cold call.",
       bullets: [
         "More than one owner, across teams",
         "The same jobs, shared across the company",
@@ -277,7 +277,7 @@ function HomePage() {
             <h1 className="hero-title">AI ASSISTANTS<br /><span className="hero-accent">FOR ONE JOB EACH</span></h1>
           </FadeIn>
           <FadeIn delay={0.3}>
-            <p className="hero-lead">Each assistant takes one back-office job — your inbox sorted and drafted, dead estimates followed up, or outreach drafted for your approval — and waits until you approve.</p>
+            <p className="hero-lead">Mars Designs sets up, configures, and runs AI assistants built on Grok Bots from xAI. Each one takes one back-office job — your inbox sorted and drafted, dead estimates followed up, or outreach drafted for your approval — and waits until you approve.</p>
           </FadeIn>
           <FadeIn delay={0.45}>
             <div className="cta-row">
@@ -326,7 +326,7 @@ function HomePage() {
         <div className="wrap">
           <SectionTitle label="The jobs" title="ONE JOB AT A TIME" />
           <FadeIn>
-            <p style={{ textAlign: "center", fontSize: 16, color: MUTED, lineHeight: 1.7, maxWidth: 640, margin: "-12px auto 36px" }}>AI assistants that each take one back-office job, then wait for your approval.</p>
+            <p style={{ textAlign: "center", fontSize: 16, color: MUTED, lineHeight: 1.7, maxWidth: 640, margin: "-12px auto 36px" }}>AI assistants that each take one back-office job, then wait for your approval. We set them up on Grok Bots from xAI.</p>
           </FadeIn>
           <div className="grid-3">
             {jobs.map((s, i) => (
@@ -364,9 +364,9 @@ function HomePage() {
 
       <section id="grok-bots" className="block">
         <div className="wrap">
-          <SectionTitle label="Grok Bots" title="GROK BOTS" />
+          <SectionTitle label="Setup service" title="GROK BOTS SETUP" />
           <FadeIn>
-            <p style={{ textAlign: "center", fontSize: 16, color: MUTED, lineHeight: 1.7, maxWidth: 650, margin: "0 auto 40px" }}>Named Grok Bots for your shop. Each one has a single job, a person who owns it, and a handoff your team can run. You own what we build.</p>
+            <p style={{ textAlign: "center", fontSize: 16, color: MUTED, lineHeight: 1.7, maxWidth: 650, margin: "0 auto 40px" }}>We set up, configure, and run AI assistants on Grok Bots from xAI. Each one has a single job, a person who owns it, and a handoff your team can run. You own the setup we build.</p>
           </FadeIn>
           <div className="grid-2-tight">
             {grokBotProducts.map((product, i) => (
@@ -387,14 +387,14 @@ function HomePage() {
           <FadeIn delay={0.2}>
             <div style={{ marginTop: 20, padding: 20, border: `1px dashed ${ACCENT}15` }}>
               <div style={{ fontSize: 13, fontWeight: 700, color: TEXT, letterSpacing: 1, marginBottom: 6 }}>Claude Teams setup</div>
-              <p style={{ fontSize: 14, color: MUTED, lineHeight: 1.7, margin: 0 }}>Already using Claude? We can stand up the same one-job bots on Claude Max or Teams. We still start with Grok.</p>
+              <p style={{ fontSize: 14, color: MUTED, lineHeight: 1.7, margin: 0 }}>Already using Claude? We can stand up the same one-job assistants on Claude Max or Teams. We still start with Grok.</p>
             </div>
           </FadeIn>
           <FadeIn delay={0.25}>
             <div style={{ marginTop: 24, padding: 28, border: `1px solid ${ACCENT}15`, textAlign: "center" }}>
               <div style={{ fontSize: 11, color: ACCENT, letterSpacing: 4, textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>Agentic AI Academy</div>
               <p style={{ fontSize: 16, color: TEXT, lineHeight: 1.7, margin: "0 0 8px" }}>Open enrollment. Core plus Grok, Claude, and Gemini tracks.</p>
-              <p style={{ fontSize: 14, color: MUTED, lineHeight: 1.7, margin: "0 0 24px" }}>Academy trains people; Grok Bots is what they run.</p>
+              <p style={{ fontSize: 14, color: MUTED, lineHeight: 1.7, margin: "0 0 24px" }}>Academy trains people; they run assistants set up on Grok Bots.</p>
               <div className="cta-row center-row">
                 <a className="cta cta-primary" href="https://agenticacademy.marsdesigns.io/signup?next=/tracks&sku=academy_full">Buy Full ($597)</a>
                 <a className="cta cta-secondary" href="https://agenticacademy.marsdesigns.io/signup?next=/tracks&sku=academy_core">Start Core ($397)</a>

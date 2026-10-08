@@ -14,7 +14,7 @@ const pages = [
     file: "index.html",
     title: "MARS Designs — AI That Works For Your Business",
     description:
-      "AI assistants for small businesses. One job each: inbox sorted and drafted, dead estimates followed up, or outreach drafted for approval. Nothing sends until you approve. The product is Grok Bots. Free missed-email and dead-estimate audit. Based in Texas.",
+      "AI assistants for small businesses, set up on Grok Bots from xAI. One job each: inbox sorted and drafted, dead estimates followed up, or outreach drafted for approval. Nothing sends until you approve. Free missed-email and dead-estimate audit. Based in Texas.",
     canonical: "https://marsdesigns.io/",
   },
   {
@@ -121,7 +121,7 @@ const required = [
   "Claude Teams setup",
   "agenticacademy.marsdesigns.io",
   "Open enrollment. Core plus Grok, Claude, and Gemini tracks.",
-  "Academy trains people; Grok Bots is what they run.",
+  "Academy trains people; they run assistants set up on Grok Bots.",
   "Buy Full ($597)",
   "Start Core ($397)",
   "Stage 01 Teaser",
@@ -143,7 +143,9 @@ const required = [
   "HOW IT WORKS",
   "Short explainers: how an inbox assistant sorts, drafts, and waits for your Approve.",
   "What is an AI assistant from Mars Designs?",
-  "We call that assistant a Grok Bot, and it is built on Grok.",
+  "Mars Designs sets it up, configures it, and runs it on Grok Bots from xAI.",
+  "Grok Bots setup",
+  "Grok Bots for Enterprise setup",
   "AI ASSISTANTS",
 ];
 const forbidden = [
@@ -185,6 +187,15 @@ const forbidden = [
   "lanes",
   "SEE IT WORKING",
   "What is a Grok Bot?",
+  "We call that assistant a Grok Bot",
+  "Named Grok Bots",
+  "The product is Grok Bots",
+  "are called Grok Bots",
+  "our Grok Bots",
+  "what we call",
+  "partner of xAI",
+  "partnership with xAI",
+  "affiliated with xAI",
 ];
 const missing = required.filter((needle) => !homepage.includes(needle));
 for (const faq of faqs) {

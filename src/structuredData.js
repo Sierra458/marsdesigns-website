@@ -11,7 +11,7 @@ export const faqs = [
   {
     question: "What is an AI assistant from Mars Designs?",
     answer:
-      "An AI assistant from Mars Designs takes one back-office job: your inbox sorted and drafted, dead estimates followed up, or outreach drafted for your approval. It prepares the work and waits for you. We call that assistant a Grok Bot, and it is built on Grok.",
+      "An AI assistant from Mars Designs takes one back-office job: your inbox sorted and drafted, dead estimates followed up, or outreach drafted for your approval. It prepares the work and waits for you. Mars Designs sets it up, configures it, and runs it on Grok Bots from xAI.",
   },
   {
     question: "What jobs can it take off my plate?",
@@ -26,22 +26,22 @@ export const faqs = [
   {
     question: "Do I need to be technical?",
     answer:
-      "No. You do not need to write code, manage a server, or learn new jargon. We set the bot up around the way the work already gets done, then show you how to review and approve. If you can read a message and tap Approve, you can run it.",
+      "No. You do not need to write code, manage a server, or learn new jargon. We set the assistant up around the way the work already gets done, then show you how to review and approve. If you can read a message and tap Approve, you can run it.",
   },
   {
     question: "How does the free audit work?",
     answer:
-      "The free missed-email and dead-estimate audit looks at what is slipping: messages that never got a reply, and estimates that went quiet. You tell us how those come in today, using the form on this page or discovery@marsdesigns.io. We write back what we see and where a Grok Bot could take a job. The audit is free, and asking for it does not commit you to a build.",
+      "The free missed-email and dead-estimate audit looks at what is slipping: messages that never got a reply, and estimates that went quiet. You tell us how those come in today, using the form on this page or discovery@marsdesigns.io. We write back what we see and where an assistant on Grok Bots could take a job. The audit is free, and asking for it does not commit you to a build.",
   },
   {
     question: "Who owns what you build?",
     answer:
-      "You do. The bots, the instructions, and the setup we put together for your business belong to you. We hand them over with the notes your team needs to keep them running. You are not left inside a system only we can access.",
+      "You do. The instructions and the setup we put together for your business belong to you. Grok Bots is the xAI platform, and we hand over the notes your team needs to keep the assistants running. You are not left inside a system only we can access.",
   },
   {
     question: "What tools do you use?",
     answer:
-      "Grok comes first. When a job needs another model, we use Claude, then Gemini. We connect the bots to the email and business tools you already use, and we tell you which tool does which job before anything goes live.",
+      "Grok comes first. The assistants run on Grok Bots from xAI, and when a job needs another model we use Claude, then Gemini. We connect them to the email and business tools you already use, and we tell you which tool does which job before anything goes live.",
   },
   {
     question: "How do we get started?",
@@ -61,7 +61,7 @@ export const structuredData = {
       url: SITE_URL,
       email: CONTACT_EMAIL,
       description:
-        "MARS Designs builds AI assistants for small businesses. Each one takes a back-office job — inbox sorted and drafted, dead estimates followed up, or outreach drafted for approval — and nothing sends until the owner approves. The assistants are called Grok Bots and are built on Grok. Based in Texas. Start with a free missed-email and dead-estimate audit.",
+        "MARS Designs sets up, configures, and runs AI assistants for small businesses, built on Grok Bots from xAI. Each one takes a back-office job — inbox sorted and drafted, dead estimates followed up, or outreach drafted for approval — and nothing sends until the owner approves. Based in Texas. Start with a free missed-email and dead-estimate audit.",
       foundingDate: "2026",
       areaServed: {
         "@type": "Country",
@@ -85,28 +85,28 @@ export const structuredData = {
           "@type": "Offer",
           name: "Free missed-email and dead-estimate audit",
           description:
-            "A free look at messages that never got a reply and estimates that went quiet. We write back what we see and where a Grok Bot could take a job. Asking for the audit does not commit you to a build.",
+            "A free look at messages that never got a reply and estimates that went quiet. We write back what we see and where an assistant on Grok Bots could take a job. Asking for the audit does not commit you to a build.",
           url: `${SITE_URL}/#contact`,
         },
         {
           "@type": "Offer",
-          name: "Grok Bots",
+          name: "Grok Bots setup",
           description:
-            "Named Grok Bots for a small shop. Each bot does one job, a person on your team owns it, and nothing sends until you approve. You own what we build.",
+            "We set up, configure, and run AI assistants on Grok Bots from xAI for a small shop. Each assistant does one job, a person on your team owns it, and nothing sends until you approve. You own the setup we build.",
           url: `${SITE_URL}/#grok-bots`,
         },
         {
           "@type": "Offer",
-          name: "Grok Bots for Enterprise",
+          name: "Grok Bots for Enterprise setup",
           description:
-            "The same one-job Grok Bots when you have more seats and more than one owner. Built for multi-seat teams. You own what we build.",
+            "The same setup when you have more seats and more than one owner, on Grok Bots from xAI. Built for multi-seat teams. You own the setup we build.",
           url: `${SITE_URL}/#grok-bots`,
         },
         {
           "@type": "Offer",
           name: "Launchpad",
           description:
-            "One-time setup of the Grok Bots you choose, including accounts, a safe trial, training, and the files. You own what we build. Scoped after a free audit or a short call.",
+            "One-time setup of the assistants you choose on Grok Bots from xAI, including accounts, a safe trial, training, and the files. You own the setup we build. Scoped after a free audit or a short call.",
           url: `${SITE_URL}/#investment`,
         },
         {
