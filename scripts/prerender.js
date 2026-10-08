@@ -2,7 +2,7 @@ import { build } from "vite";
 import fs from "node:fs";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
-import { structuredDataJson } from "../src/structuredData.js";
+import { faqs, structuredDataJson } from "../src/structuredData.js";
 
 const root = path.resolve(process.cwd());
 const distDir = path.join(root, "dist");
@@ -14,7 +14,7 @@ const pages = [
     file: "index.html",
     title: "MARS Designs — AI That Works For Your Business",
     description:
-      "MARS Designs is a Texas AI consultancy. We set up Grok, Claude, and Gemini, custom skills, Grok Bots, and answer engine optimization for small businesses. Contact us for a quote at discovery@marsdesigns.io.",
+      "AI assistants for small businesses, set up on Grok Bots from xAI. One job each: inbox sorted and drafted, dead estimates followed up, or outreach drafted for approval. Nothing sends until you approve. Free missed-email and dead-estimate audit. Based in Texas.",
     canonical: "https://marsdesigns.io/",
   },
   {
@@ -102,24 +102,26 @@ const homepage = fs.readFileSync(path.join(distDir, "index.html"), "utf8");
 const required = [
   "MARS Designs",
   "INVESTMENT",
-  "Contact us for a quote",
-  "We scope Launchpad and ongoing work to the shop after a short discovery call.",
+  "Get a free missed-email &amp; dead-estimate audit",
+  "Launchpad for the setup",
   "Based in Texas",
   "discovery@marsdesigns.io",
   "application/ld+json",
+  "FAQPage",
   "Book a free call",
+  "Talk to us",
+  "Free audit",
   "Grok",
   "Claude",
   "Gemini",
   "AGENT TEAMS THAT COORDINATE",
   "specialist agents that hand off and coordinate",
   "GROK BOTS",
-  "Named Grok Bot fleets for your shop",
   "Grok Bots for Enterprise",
   "Claude Teams setup",
   "agenticacademy.marsdesigns.io",
   "Open enrollment. Core plus Grok, Claude, and Gemini tracks.",
-  "Academy trains people; Grok Bots is what they run.",
+  "Academy trains people; they run assistants set up on Grok Bots.",
   "Buy Full ($597)",
   "Start Core ($397)",
   "Stage 01 Teaser",
@@ -128,6 +130,23 @@ const required = [
   "https://agenticacademy.marsdesigns.io/signup?next=/tracks&amp;sku=academy_core",
   "https://agenticacademy.marsdesigns.io/sample",
   "Once the fleet is up, specialist bots hand off and coordinate across your tools.",
+  "Your inbox, sorted and drafted",
+  "Dead estimates, followed up",
+  "Outreach, drafted for your approval",
+  "playsinline",
+  'preload="metadata"',
+  "/media/mars-email-grok-bot.mp4",
+  "/media/mars-grok-bots-promo.mp4",
+  "/media/mars-email-grok-bot-poster.jpg",
+  "/media/mars-grok-bots-promo-poster.jpg",
+  "Grok comes first.",
+  "HOW IT WORKS",
+  "Short explainers: how an inbox assistant sorts, drafts, and waits for your Approve.",
+  "What is an AI assistant from Mars Designs?",
+  "Mars Designs sets it up, configures it, and runs it on Grok Bots from xAI.",
+  "Grok Bots setup",
+  "Grok Bots for Enterprise setup",
+  "AI ASSISTANTS",
 ];
 const forbidden = [
   "$2,500",
@@ -161,8 +180,31 @@ const forbidden = [
   "invite-only",
   "invite only",
   "Invite-only",
+  "Contact us for a quote",
+  "Hardware Config",
+  "GitHub Repository",
+  "rooms",
+  "lanes",
+  "SEE IT WORKING",
+  "What is a Grok Bot?",
+  "We call that assistant a Grok Bot",
+  "Named Grok Bots",
+  "The product is Grok Bots",
+  "are called Grok Bots",
+  "our Grok Bots",
+  "what we call",
+  "partner of xAI",
+  "partnership with xAI",
+  "affiliated with xAI",
 ];
 const missing = required.filter((needle) => !homepage.includes(needle));
+for (const faq of faqs) {
+  const questionHits = homepage.split(faq.question).length - 1;
+  const answerHits = homepage.split(faq.answer).length - 1;
+  if (questionHits < 2 || answerHits < 2) {
+    throw new Error(`FAQ "${faq.question}" must appear in the visible page and FAQPage JSON-LD (question ${questionHits}, answer ${answerHits})`);
+  }
+}
 if (missing.length) {
   throw new Error(`Homepage HTML is missing crawler text: ${missing.join(", ")}`);
 }
@@ -182,8 +224,25 @@ for (const price of allowedAcademyPrices) {
 if (homepageWithoutAcademyPrices.includes("$")) {
   throw new Error("Homepage HTML still contains a non-Academy dollar sign");
 }
+const xaiPhrase = "Grok Bots from xAI";
+const xaiHits = homepage.split(xaiPhrase).length - 1;
+// meta description, hero, visible FAQ answer, FAQPage JSON-LD answer, organization description
+if (xaiHits !== 5) {
+  throw new Error(`Homepage must contain "${xaiPhrase}" exactly 5 times (found ${xaiHits})`);
+}
+if (/property="og:description" content="[^"]*from xAI/.test(homepage)) {
+  throw new Error("Open Graph description must not repeat from xAI");
+}
 
-for (const file of ["robots.txt", "sitemap.xml", path.join("privacy", "index.html")]) {
+for (const file of [
+  "robots.txt",
+  "sitemap.xml",
+  path.join("privacy", "index.html"),
+  path.join("media", "mars-email-grok-bot.mp4"),
+  path.join("media", "mars-grok-bots-promo.mp4"),
+  path.join("media", "mars-email-grok-bot-poster.jpg"),
+  path.join("media", "mars-grok-bots-promo-poster.jpg"),
+]) {
   if (!fs.existsSync(path.join(distDir, file))) {
     throw new Error(`Build output missing ${file}`);
   }
