@@ -1,5 +1,23 @@
+import fs from 'node:fs'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+
+const rootDir = path.dirname(fileURLToPath(import.meta.url))
+
+// Production responses get these from vercel.json. Dev and preview read the
+// same rule so every local route sends the identical headers.
+function headersForAllRoutes() {
+  const vercel = JSON.parse(fs.readFileSync(path.join(rootDir, 'vercel.json'), 'utf8'))
+  const rule = vercel.headers?.find((entry) => entry.source === '/(.*)')
+  if (!rule?.headers?.length) {
+    throw new Error('vercel.json is missing security headers for /(.*)')
+  }
+  return Object.fromEntries(rule.headers.map(({ key, value }) => [key, value]))
+}
+
+const securityHeaders = headersForAllRoutes()
 
 const PRIVACY_PATHS = new Set(['/privacy', '/privacy-policy'])
 
@@ -29,6 +47,8 @@ function privacyRoutes() {
 export default defineConfig({
   plugins: [react(), privacyRoutes()],
   appType: 'mpa',
+  server: { headers: securityHeaders },
+  preview: { headers: securityHeaders },
   build: {
     outDir: 'dist',
     sourcemap: false,
