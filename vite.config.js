@@ -19,15 +19,15 @@ function headersForAllRoutes() {
 
 const securityHeaders = headersForAllRoutes()
 
-const PRIVACY_PATHS = new Set(['/privacy', '/privacy-policy'])
+const STATIC_PAGE_PATHS = new Set(['/privacy', '/privacy-policy', '/refund'])
 
-function privacyRoutes() {
+function staticPageRoutes() {
   return {
-    name: 'privacy-routes',
+    name: 'static-page-routes',
     configureServer(server) {
       server.middlewares.use((req, _res, next) => {
         const url = req.url?.split('?')[0]
-        if (PRIVACY_PATHS.has(url)) {
+        if (STATIC_PAGE_PATHS.has(url)) {
           req.url = '/index.html'
         }
         next()
@@ -38,6 +38,7 @@ function privacyRoutes() {
         const url = req.url?.split('?')[0]
         if (url === '/privacy') req.url = '/privacy/index.html'
         if (url === '/privacy-policy') req.url = '/privacy-policy/index.html'
+        if (url === '/refund') req.url = '/refund/index.html'
         next()
       })
     },
@@ -45,7 +46,7 @@ function privacyRoutes() {
 }
 
 export default defineConfig({
-  plugins: [react(), privacyRoutes()],
+  plugins: [react(), staticPageRoutes()],
   appType: 'mpa',
   server: { headers: securityHeaders },
   preview: { headers: securityHeaders },
