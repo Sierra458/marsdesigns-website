@@ -45,6 +45,19 @@ export default async function handler(req, res) {
           input: { format: { type: 'audio/pcm', rate: 24000 } },
           output: { format: { type: 'audio/pcm', rate: 24000 } },
         },
+        // https://docs.x.ai/developers/model-capabilities/audio/speech-to-speech
+        // Custom function tools are declared on session.update and handled in the client.
+        tools: [
+          {
+            type: 'function',
+            name: 'end_call',
+            description: 'Hang up after you have said a brief farewell. Call this once the visitor says goodbye or clearly signals they are done, and only after that farewell.',
+            parameters: {
+              type: 'object',
+              properties: {},
+            },
+          },
+        ],
       },
     })
   } catch {

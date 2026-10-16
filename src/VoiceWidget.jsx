@@ -40,6 +40,8 @@ export default function VoiceWidget() {
     try { s.ctx && s.ctx.close() } catch {}
     clearTimeout(s.timer)
     clearTimeout(s.greetTimer)
+    clearTimeout(s.hangupTimer)
+    clearTimeout(s.endFallback)
     setStatus(msg ? 'error' : 'idle')
     setErr(msg || '')
   }
@@ -87,6 +89,36 @@ export default function VoiceWidget() {
       connectMic()
     }
 
+    const finishEndCall = () => {
+      if (r.current !== s || s.ended) return
+      s.ended = true
+      clearTimeout(s.hangupTimer)
+      clearTimeout(s.endFallback)
+      const ws = s.ws
+      if (ws && ws.readyState === 1 && s.endCallId) {
+        try {
+          ws.send(JSON.stringify({
+            type: 'conversation.item.create',
+            item: {
+              type: 'function_call_output',
+              call_id: s.endCallId,
+              output: JSON.stringify({ status: 'ended' }),
+            },
+          }))
+        } catch {}
+      }
+      stop()
+    }
+
+    const scheduleEnd = () => {
+      if (r.current !== s || s.ended || s.hangupTimer || !s.endCallId || !s.responseDone) return
+      const remainingMs = Math.max(0, (s.playAt - ctx.currentTime) * 1000)
+      const sinceDone = Date.now() - (s.responseDoneAt || Date.now())
+      // Wait out the farewell already queued. If nothing is left to play, wait until ~1.5s after response.done.
+      const waitMs = remainingMs > 80 ? remainingMs + 120 : Math.max(0, 1500 - sinceDone)
+      s.hangupTimer = setTimeout(finishEndCall, waitMs)
+    }
+
     micPromise.then(
       (stream) => {
         if (r.current !== s) { stopTracks(stream); return }
@@ -124,6 +156,7 @@ export default function VoiceWidget() {
         if (m.type === 'session.updated') {
           sendGreeting()
         } else if (m.type === 'response.output_audio.delta' && m.delta) {
+          s.cutPlayback = false
           const pcm = int16FromB64(m.delta)
           const buf = ctx.createBuffer(1, pcm.length, RATE)
           const ch = buf.getChannelData(0)
@@ -137,10 +170,34 @@ export default function VoiceWidget() {
           s.sources.add(node)
           node.onended = () => {
             s.sources.delete(node)
-            if (r.current === s && !s.sources.size) setStatus('listening')
+            if (r.current !== s || s.sources.size || s.cutPlayback) return
+            if (s.endCallId && s.responseDone) finishEndCall()
+            else if (!s.endCallId) setStatus('listening')
           }
           setStatus('speaking')
+        } else if (m.type === 'response.created') {
+          s.responseDone = false
+        } else if (m.type === 'response.done') {
+          s.responseDone = true
+          s.responseDoneAt = Date.now()
+          clearTimeout(s.endFallback)
+          scheduleEnd()
+        } else if (m.type === 'response.function_call_arguments.done' && m.name === 'end_call' && !s.endCallId) {
+          // Docs: this event carries name, call_id, and arguments. Reply later with
+          // conversation.item.create function_call_output. Do not response.create; that would keep her talking.
+          s.endCallId = m.call_id
+          if (!s.responseDone) {
+            s.endFallback = setTimeout(() => {
+              if (r.current !== s || s.ended) return
+              s.responseDone = true
+              s.responseDoneAt = Date.now()
+              scheduleEnd()
+            }, 1500)
+          }
+          scheduleEnd()
         } else if (m.type === 'input_audio_buffer.speech_started') {
+          // Stopping a buffer fires onended. Don't treat that as the farewell finishing.
+          s.cutPlayback = true
           s.sources.forEach((n) => { try { n.stop() } catch {} })
           s.sources.clear()
           s.playAt = 0
