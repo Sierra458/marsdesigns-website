@@ -1,0 +1,17 @@
+name: copy-guard
+on: { pull_request: {}, push: { branches: [main] } }
+permissions: { contents: read }
+jobs:
+  copy-guard:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20, cache: npm }
+      - run: npm ci && npm run build
+      - name: Fixture self-test (each banned phrase must fail)
+        run: |
+          mkdir -p /tmp/fx && for s in "an official xAI partner" "Matt Webb invented and named Grok Bots" "built on ChatGPT" "Copilot costs \$19" "Matt's kids love it"; do
+            echo "<p>$s</p>" > /tmp/fx/a.html; ! python3 scripts/copy-guard.py /tmp/fx || exit 1; done
+      - name: Scan built HTML (JSON-LD and meta) and voice instructions
+        run: python3 scripts/copy-guard.py dist api/_voice-instructions*

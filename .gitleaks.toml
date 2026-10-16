@@ -1,0 +1,15 @@
+title = "Matt fleet gitleaks rules"
+[extend]
+useDefault = true
+[[rules]]
+id = "stripe-key"
+regex = '''(sk|rk)_(live|test)_[A-Za-z0-9]{16,}'''
+[[rules]]
+id = "xai-key"
+regex = '''xai-[A-Za-z0-9]{20,}'''
+[[rules]]
+id = "supabase-key"
+regex = '''sb_(secret|publishable)_[A-Za-z0-9_-]{16,}'''
+[[rules]]
+id = "password-line"
+regex = '''(?im)^\s*password\s*[:=]\s*\S{4,}'''
