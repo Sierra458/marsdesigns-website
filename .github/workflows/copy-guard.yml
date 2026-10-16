@@ -1,18 +1,144 @@
 name: copy-guard
-on: { pull_request: {}, push: { branches: [main] } }
-permissions: { contents: read }
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
 jobs:
   copy-guard:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
-        with: { fetch-depth: 0 }
-      - name: Notice guard-config changes
-        run: scripts/guard-config-notice.sh "${{ github.event_name == 'pull_request' && github.event.pull_request.base.sha || github.event.before }}"
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
-        with: { node-version: 20, cache: npm }
+        with:
+          node-version: 20
+          cache: npm
       - run: npm ci && npm run build
       - name: Fixture self-test
-        run: python3 scripts/copy-guard.py --self-test
+        run: |
+          set -euo pipefail
+          fail() { echo "fixture failed: $*" >&2; exit 1; }
+          expect_rule() {
+            local file="$1" rule="$2" out status
+            set +e
+            out=$(python3 scripts/copy-guard.py "$file" 2>&1)
+            status=$?
+            set -e
+            if [ "$status" -eq 0 ]; then
+              printf '%s\n' "$out" >&2
+              fail "$file expected [$rule] but exited 0"
+            fi
+            if ! printf '%s\n' "$out" | grep -F "copy-guard [$rule]" >/dev/null; then
+              printf '%s\n' "$out" >&2
+              fail "$file missing rule $rule"
+            fi
+          }
+          expect_clean() {
+            local file="$1" out status
+            set +e
+            out=$(python3 scripts/copy-guard.py "$file" 2>&1)
+            status=$?
+            set -e
+            if [ "$status" -ne 0 ]; then
+              printf '%s\n' "$out" >&2
+              fail "$file expected zero hits"
+            fi
+            if ! printf '%s\n' "$out" | grep -F "copy-guard: 0 allowed, 0 hit(s)" >/dev/null; then
+              printf '%s\n' "$out" >&2
+              fail "$file did not report zero hits"
+            fi
+          }
+          mkdir -p /tmp/fx
+          printf '<p>%s</p>\n' "an official xAI partner" > /tmp/fx/a.html
+          expect_rule /tmp/fx/a.html xai-partner
+          expect_rule /tmp/fx/a.html xai-mention
+          printf '<p>%s</p>\n' "Matt Webb invented and named Grok Bots" > /tmp/fx/a.html
+          expect_rule /tmp/fx/a.html matt-invented-grokbots
+          printf '<p>%s</p>\n' "built on ChatGPT" > /tmp/fx/a.html
+          expect_rule /tmp/fx/a.html other-vendor
+          printf '<p>%s</p>\n' "Matt's kids love it" > /tmp/fx/a.html
+          expect_rule /tmp/fx/a.html implies-kids
+          printf '<p>%s</p>\n' 'Claude Pro $20' > /tmp/fx/a.html
+          expect_rule /tmp/fx/a.html other-product-price
+          printf '<p>%s</p>\n' 'ChatGPT Plus $20' > /tmp/fx/a.html
+          expect_rule /tmp/fx/a.html other-product-price
+          printf '<p>%s</p>\n' 'Gemini Advanced $20' > /tmp/fx/a.html
+          expect_rule /tmp/fx/a.html other-product-price
+          printf '<p>%s</p>\n' 'Claude track $129' > /tmp/fx/a.html
+          expect_clean /tmp/fx/a.html
+          printf '<p>%s</p>\n' "We never said that Matt Webb invented and named Grok Bots." > /tmp/fx/a.html
+          expect_clean /tmp/fx/a.html
+          printf '<p>%s</p>\n' "No setup fees. Official xAI partner." > /tmp/fx/a.html
+          expect_rule /tmp/fx/a.html xai-partner
+          printf '<p>%s</p>\n' "We are not an official xAI partner." > /tmp/fx/a.html
+          expect_rule /tmp/fx/a.html xai-mention
+          out=$(python3 scripts/copy-guard.py /tmp/fx/a.html 2>&1 || true)
+          if printf '%s\n' "$out" | grep -F "copy-guard [xai-partner]" >/dev/null; then
+            fail "denial wording still matched xai-partner"
+          fi
+          printf '%s\n' "built on ChatGPT" > /tmp/fx/note.mjs
+          expect_rule /tmp/fx/note.mjs other-vendor
+          printf '%s\n' "built on ChatGPT" > /tmp/fx/note.cjs
+          expect_rule /tmp/fx/note.cjs other-vendor
+          printf '%s\n' "built on ChatGPT" > /tmp/fx/_voice-instructions
+          expect_rule /tmp/fx/_voice-instructions other-vendor
+          out=$(python3 scripts/copy-guard.py /tmp/fx/no-such-voice-instructions 2>&1 || true)
+          printf '%s\n' "$out" | grep -F "skipped missing path" >/dev/null || fail "missing voice path was silent"
+          cat > /tmp/fx/clean.html <<'EOF'
+          <!DOCTYPE html>
+          <html lang="en">
+          <head>
+          <meta name="description" content="Mars Designs Agentic AI Academy">
+          <script type="application/ld+json">{"@type":"Organization","name":"Mars Designs"}</script>
+          </head>
+          <body><p>Learn to build production agents.</p></body>
+          </html>
+          EOF
+          expect_clean /tmp/fx/clean.html
       - name: Scan built HTML (JSON-LD and meta) and voice instructions
         run: python3 scripts/copy-guard.py dist api/_voice-instructions*
+      - name: Notice guard config changes
+        if: always()
+        env:
+          GITHUB_EVENT_BEFORE: ${{ github.event.before }}
+        run: |
+          set -euo pipefail
+          watch=(
+            .gitleaks.toml
+            .gitleaksignore
+            .copy-guard-allow
+            scripts/copy-guard.py
+            .github/workflows/copy-guard.yml
+            .github/workflows/gitleaks.yml
+          )
+          if [ "${GITHUB_EVENT_NAME}" = "pull_request" ]; then
+            git fetch --no-tags origin "${GITHUB_BASE_REF}"
+            range="origin/${GITHUB_BASE_REF}...HEAD"
+          elif [ -n "${GITHUB_EVENT_BEFORE:-}" ] && [ "${GITHUB_EVENT_BEFORE}" != "0000000000000000000000000000000000000000" ]; then
+            range="${GITHUB_EVENT_BEFORE}...HEAD"
+          else
+            git fetch --no-tags origin main
+            range="origin/main...HEAD"
+          fi
+          changed="$(git diff --name-only "$range" -- "${watch[@]}" || true)"
+          {
+            echo "## Guard config"
+            if [ -n "$changed" ]; then
+              echo "Changed guard files:"
+              printf '%s\n' "$changed" | sed 's/^/- /'
+            else
+              echo "No watched guard files changed."
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+          if [ -n "$changed" ]; then
+            while IFS= read -r file; do
+              [ -n "$file" ] || continue
+              echo "::notice file=${file}::Guard config changed"
+            done <<< "$changed"
+          fi

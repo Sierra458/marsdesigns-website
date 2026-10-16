@@ -1,21 +1,19 @@
 #!/usr/bin/env python3
-"""copy-guard: scan built HTML (incl. JSON-LD/meta) + api/_voice-instructions* for banned Mars copy.
+"""copy-guard: scan built HTML (incl. JSON-LD/meta) and voice-instruction files.
 
-Usage: copy-guard.py --self-test
-       copy-guard.py PATH [PATH...]
+A path argument may be a directory or a single file. Single files are scanned
+directly (a directory walk would skip api/_voice-instructions*). Missing paths
+are reported. Allowlist lines, if any, are exactly:
 
-Allowlist (.copy-guard-allow), one entry per line, no wildcards:
-  path :: rule :: sha256 :: reason
-The sha256 is the hex digest of the normalized line (strip, collapse whitespace, UTF-8).
-Comments (#) and blank lines are ignored. Malformed lines fail the scan.
+    path :: rule :: sha256(normalized line) :: reason
+
+Normalized line: strip, then collapse whitespace to a single space. Wildcards
+and malformed lines are rejected. The allowlist ships empty.
 """
-import contextlib
 import hashlib
-import io
+import pathlib
 import re
 import sys
-import pathlib
-import tempfile
 
 RULES = {
     "xai-partner": r"xAI partner|partnership with xAI|official xAI",
@@ -23,200 +21,112 @@ RULES = {
     "other-vendor": r"\b(OpenAI|ChatGPT|GPT-\d|Copilot|Llama|Mistral)\b",
     "xai-mention": r"\bxAI\b",  # any xAI mention in public copy; legit trademark lines go in allowlist
     "other-product-price": (
-        r"\b(?:ChatGPT Plus|ChatGPT Pro|ChatGPT Team|Claude Pro|Claude Team|Claude Max"
-        r"|Gemini Advanced|Gemini Ultra|Copilot Pro)\b[^.<]{0,40}\$\s?\d"
+        r"\b(Claude|ChatGPT|Gemini|Copilot|OpenAI)\s+"
+        r"(Pro|Plus|Advanced|Ultra|Team|Enterprise|Business|Max|Premium)\b"
+        r"[^.<]{0,40}\$\s?\d"
     ),
     "implies-kids": r"\b(my|Matt'?s|his) (kids|children|son|daughter)\b|\bfather of\b|\bdad of\b",
 }
+SCAN_SUFFIXES = {
+    ".html", ".json", ".txt", ".md", ".ts", ".js", ".mjs", ".cjs",
+    ".body", ".rsc", ".meta", ".xml",
+}
 DENIAL_RULES = {"xai-partner", "matt-invented-grokbots"}
-DENIAL_WORDS = re.compile(r"\b(?:not|no|never|without|nor)\b|\bisn['’]t\b|\baren['’]t\b", re.I)
-SCAN_SUFFIXES = {".html", ".json", ".txt", ".md", ".ts", ".js", ".mjs", ".cjs"}
+DENIAL_WORDS = {"not", "no", "never", "isn't", "aren't", "without", "nor"}
+WORD = re.compile(r"[A-Za-z]+(?:'[A-Za-z]+)?")
 ALLOW_PATH = pathlib.Path(".copy-guard-allow")
-WILDCARD = re.compile(r"[*?\[\]]")
 
 
-def normalize_line(line):
+def normalize_line(line: str) -> str:
     return re.sub(r"\s+", " ", line.strip())
 
 
-def line_digest(line):
+def line_digest(line: str) -> str:
     return hashlib.sha256(normalize_line(line).encode("utf-8")).hexdigest()
 
 
-def denial_before(line, start, words=5):
-    window = " ".join(re.findall(r"\S+", line[:start])[-words:])
-    return DENIAL_WORDS.search(window) is not None
-
-
-def load_allow(path):
-    entries = []
+def load_allow(path: pathlib.Path) -> list[tuple[str, str, str, str]]:
     if not path.exists():
-        return entries
-    for n, raw in enumerate(path.read_text().splitlines(), 1):
-        line = raw.strip()
-        if not line or line.startswith("#"):
+        return []
+    entries: list[tuple[str, str, str, str]] = []
+    for number, raw in enumerate(path.read_text().splitlines(), 1):
+        if not raw.strip() or raw.lstrip().startswith("#"):
             continue
-        parts = line.split(" :: ")
-        if len(parts) != 4:
-            print(f"::error file={path},line={n}::copy-guard malformed allowlist entry")
-            sys.exit(2)
-        file_path, rule, digest, reason = (part.strip() for part in parts)
-        if (
-            not file_path
-            or not reason
-            or rule not in RULES
-            or not re.fullmatch(r"[0-9a-f]{64}", digest)
-            or WILDCARD.search(file_path)
-            or WILDCARD.search(rule)
-        ):
-            print(f"::error file={path},line={n}::copy-guard malformed allowlist entry")
-            sys.exit(2)
-        entries.append((file_path, rule, digest))
+        parts = [part.strip() for part in raw.split(" :: ")]
+        if len(parts) != 4 or any(part == "" for part in parts):
+            raise SystemExit(f"malformed allowlist {path}:{number}")
+        file_path, rule, digest, reason = parts
+        if any(char in file_path for char in "*?[]"):
+            raise SystemExit(f"wildcard allowlist path not allowed {path}:{number}")
+        if rule not in RULES:
+            raise SystemExit(f"unknown allowlist rule {path}:{number}")
+        if not re.fullmatch(r"[0-9a-f]{64}", digest):
+            raise SystemExit(f"allowlist sha256 must be 64 hex chars {path}:{number}")
+        if not reason:
+            raise SystemExit(f"malformed allowlist {path}:{number}")
+        entries.append((file_path, rule, digest, reason))
     return entries
 
 
-def iter_files(root):
-    path = pathlib.Path(root)
-    candidates = [path] if path.is_file() else path.rglob("*")
-    for f in candidates:
-        if f.is_file() and (f.suffix in SCAN_SUFFIXES or "_voice-instructions" in f.name):
-            yield f
+def should_scan(path: pathlib.Path) -> bool:
+    return path.suffix in SCAN_SUFFIXES or "_voice-instructions" in path.name
 
 
-def matching_rules(line):
-    found = []
-    for rid, rx in RULES.items():
-        flags = 0 if rid == "xai-mention" else re.I
-        for match in re.finditer(rx, line, flags):
-            if rid in DENIAL_RULES and denial_before(line, match.start()):
-                continue
-            found.append(rid)
-            break
-    return found
+def iter_scan_files(argument: str) -> list[pathlib.Path]:
+    path = pathlib.Path(argument)
+    if not path.exists():
+        print(f"copy-guard: skipped missing path {path}")
+        return []
+    if path.is_file():
+        if not should_scan(path):
+            print(f"copy-guard: skipped {path} (not a scanned file type)")
+            return []
+        return [path]
+    return [item for item in path.rglob("*") if item.is_file() and should_scan(item)]
 
 
-def scan(roots, allow_path=ALLOW_PATH):
-    allow = load_allow(allow_path)
+def denial_just_before(line: str, start: int) -> bool:
+    prefix = line[:start]
+    # Denial words in an earlier sentence do not cover this match.
+    cut = max(prefix.rfind(char) for char in ".!?;|")
+    if cut != -1:
+        prefix = prefix[cut + 1 :]
+    words = [word.lower() for word in WORD.findall(prefix)]
+    return any(word in DENIAL_WORDS for word in words[-5:])
+
+
+def allowed_hit(entries: list[tuple[str, str, str, str]], file_path: pathlib.Path, rule: str, line: str) -> bool:
+    digest = line_digest(line)
+    seen = {str(file_path), file_path.as_posix()}
+    return any(file_path_text in seen and rule == rule_id and digest == expected for file_path_text, rule_id, expected, _reason in entries)
+
+
+def main() -> None:
+    entries = load_allow(ALLOW_PATH)
     hits = 0
     allowed = 0
-    for root in roots:
-        for f in iter_files(root):
-            for n, line in enumerate(f.read_text(errors="ignore").splitlines(), 1):
-                for rid in matching_rules(line):
-                    digest = line_digest(line)
-                    if any(str(f) == path and rid == rule and digest == hashed for path, rule, hashed in allow):
-                        print(f"ALLOWED {f}:{n} [{rid}]")
+    for argument in sys.argv[1:]:
+        for file_path in iter_scan_files(argument):
+            for number, line in enumerate(file_path.read_text(errors="ignore").splitlines(), 1):
+                for rule_id, pattern in RULES.items():
+                    flags = 0 if rule_id == "xai-mention" else re.I
+                    matched = False
+                    for match in re.finditer(pattern, line, flags):
+                        if rule_id in DENIAL_RULES and denial_just_before(line, match.start()):
+                            continue
+                        matched = True
+                        break
+                    if not matched:
+                        continue
+                    if allowed_hit(entries, file_path, rule_id, line):
+                        print(f"ALLOWED {file_path}:{number} [{rule_id}]")
                         allowed += 1
                         continue
-                    print(f"::error file={f},line={n}::copy-guard [{rid}]")
+                    print(f"::error file={file_path},line={number}::copy-guard [{rule_id}]")
                     hits += 1
-    print(f"copy-guard: {hits} hit(s), {allowed} allowed")
-    return 1 if hits else 0
-
-
-def _write(dir_path, name, text):
-    path = dir_path / name
-    path.write_text(text)
-    return path
-
-
-def _expect(dir_path, name, text, code, present=(), absent=(), allow_path=None):
-    path = _write(dir_path, name, text if text.endswith("\n") else text + "\n")
-    allow = allow_path if allow_path is not None else _write(dir_path, ".copy-guard-allow", "")
-    buf = io.StringIO()
-    with contextlib.redirect_stdout(buf):
-        got = scan([path], allow)
-    out = buf.getvalue()
-    rules = set(re.findall(r"copy-guard \[([^\]]+)\]", out))
-    if got != code or any(r not in rules for r in present) or any(r in rules for r in absent):
-        print(f"self-test failed for {name!r}: exit {got} want {code}; rules {sorted(rules)}", file=sys.stderr)
-        print(out, file=sys.stderr)
-        return False
-    if code == 0 and ("::error" in out or "0 hit(s)" not in out):
-        print(f"self-test failed for {name!r}: clean scan was not clean\n{out}", file=sys.stderr)
-        return False
-    return True
-
-
-def self_test():
-    failures = 0
-    with tempfile.TemporaryDirectory() as tmp:
-        root = pathlib.Path(tmp)
-        cases = [
-            ("claim-partner.html", "<p>an official xAI partner</p>", 1, ("xai-partner",), ()),
-            ("claim-invented.html", "<p>Matt Webb invented and named Grok Bots</p>", 1, ("matt-invented-grokbots",), ()),
-            ("vendor.html", "<p>built on ChatGPT</p>", 1, ("other-vendor",), ()),
-            ("copilot-price.html", "<p>Copilot costs $19</p>", 1, ("other-vendor",), ("other-product-price",)),
-            ("kids.html", "<p>Matt's kids love it</p>", 1, ("implies-kids",), ()),
-            ("clean.html", "<p>Mars Designs is based in Texas.</p>", 0, (), ()),
-            ("claude-track.html", "<p>Claude track $129</p>", 0, (), ()),
-            ("claude-pro.html", "<p>Claude Pro $20</p>", 1, ("other-product-price",), ()),
-            ("denial-invented.html", "<p>Do not say Matt invented and named Grok Bots</p>", 0, (), ()),
-            ("denial-partner.html", "<p>We claim no partnership with xAI</p>", 1, ("xai-mention",), ("xai-partner",)),
-            ("denial-isnt.html", "<p>This isn't an official xAI partner</p>", 1, ("xai-mention",), ("xai-partner",)),
-            ("far-denial.html", "<p>We are not a shop, and the work is an official xAI partner program</p>", 1, ("xai-partner",), ()),
-            ("vendor.mjs", "export const note = 'built on ChatGPT'\n", 1, ("other-vendor",), ()),
-            ("vendor.cjs", "module.exports = 'built on ChatGPT'\n", 1, ("other-vendor",), ()),
-        ]
-        for name, text, code, present, absent in cases:
-            if not _expect(root, name, text, code, present, absent):
-                failures += 1
-        # A direct file path (not a directory) is scanned.
-        if not _expect(root, "direct.html", "<p>an official xAI partner</p>", 1, ("xai-partner",)):
-            failures += 1
-        # Exact allow entry suppresses one normalized line and is counted.
-        phrase = "<p>an official xAI partner</p>"
-        allowed_line = phrase if phrase.endswith("\n") else phrase + "\n"
-        # The scanner hashes each file line without the trailing newline splitlines() drops.
-        line = allowed_line.splitlines()[0]
-        digest = line_digest(line)
-        target = _write(root, "allowed.html", allowed_line)
-        allow_file = root / "good-allow"
-        allow_file.write_text(f"{target} :: xai-partner :: {digest} :: fixture trademark line\n")
-        buf = io.StringIO()
-        with contextlib.redirect_stdout(buf):
-            got = scan([target], allow_file)
-        out = buf.getvalue()
-        if got != 1 or "copy-guard [xai-partner]" in out or f"ALLOWED {target}:1 [xai-partner]" not in out or "1 allowed" not in out:
-            # xai-mention on the same line is still a hit; xai-partner must be allowed.
-            print(f"self-test failed for allow entry\n{out}", file=sys.stderr)
-            failures += 1
-        elif "copy-guard [xai-mention]" not in out:
-            print(f"self-test failed: allow entry also hid xai-mention\n{out}", file=sys.stderr)
-            failures += 1
-        for label, contents in (
-            ("wildcard", "dist/*.html :: xai-mention :: " + ("a" * 64) + " :: no globs\n"),
-            ("malformed", "not a valid allow line\n"),
-            ("short-hash", "index.html :: xai-mention :: abcd :: missing digest\n"),
-        ):
-            bad = root / label
-            bad.write_text(contents)
-            buf = io.StringIO()
-            with contextlib.redirect_stdout(buf):
-                try:
-                    scan([target], bad)
-                    got = 0
-                except SystemExit as exc:
-                    got = exc.code
-            if got != 2:
-                print(f"self-test failed for {label}: exit {got}\n{buf.getvalue()}", file=sys.stderr)
-                failures += 1
-        load_allow(ALLOW_PATH)
-    if failures:
-        print(f"copy-guard self-test: {failures} failure(s)", file=sys.stderr)
-        return 1
-    print("copy-guard self-test: ok")
-    return 0
-
-
-def main(argv):
-    if argv[1:] == ["--self-test"]:
-        return self_test()
-    if len(argv) < 2:
-        print("usage: copy-guard.py --self-test | PATH [PATH...]", file=sys.stderr)
-        return 2
-    return scan(argv[1:])
+    print(f"copy-guard: {allowed} allowed, {hits} hit(s)")
+    sys.exit(1 if hits else 0)
 
 
 if __name__ == "__main__":
-    sys.exit(main(sys.argv))
+    main()

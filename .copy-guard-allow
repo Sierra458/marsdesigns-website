@@ -1,1 +1,3 @@
-# path :: rule :: sha256 :: reason
+# path :: rule :: sha256 of the normalized line :: reason
+# Normalized line: strip, then collapse whitespace to one space. No wildcards.
+# Matt reviews every line. This file has no entries.
