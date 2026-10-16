@@ -33,6 +33,14 @@ const pages = [
       "Privacy Policy for MARS Designs LLC, a Texas AI consultancy. How we collect, use, and protect information from our website, contact form, and discovery@marsdesigns.io.",
     canonical: "https://marsdesigns.io/privacy",
   },
+  {
+    url: "/refund",
+    file: path.join("refund", "index.html"),
+    title: "Refund Policy — MARS Designs",
+    description:
+      "Refund Policy for Agentic AI Academy courses from MARS Designs. Ask within 30 days of purchase. Refunds follow the share of stages you have not passed.",
+    canonical: "https://marsdesigns.io/refund",
+  },
 ];
 
 await build({
@@ -147,6 +155,8 @@ const required = [
   "Grok Bots setup",
   "Grok Bots for Enterprise setup",
   "AI ASSISTANTS",
+  "Refund Policy",
+  'href="/refund"',
 ];
 const forbidden = [
   "$2,500",
@@ -238,6 +248,7 @@ for (const file of [
   "robots.txt",
   "sitemap.xml",
   path.join("privacy", "index.html"),
+  path.join("refund", "index.html"),
   path.join("media", "mars-email-grok-bot.mp4"),
   path.join("media", "mars-grok-bots-promo.mp4"),
   path.join("media", "mars-email-grok-bot-poster.jpg"),
@@ -251,6 +262,26 @@ for (const file of [
 const privacy = fs.readFileSync(path.join(distDir, "privacy", "index.html"), "utf8");
 if (!privacy.includes("PRIVACY POLICY") || !privacy.includes("Texas")) {
   throw new Error("Privacy page HTML is missing policy copy");
+}
+
+const refund = fs.readFileSync(path.join(distDir, "refund", "index.html"), "utf8");
+const refundCopy = [
+  "Refund Policy",
+  "Last updated: October 16, 2026",
+  "30 days of your purchase date",
+  "You get back 9/12 of what you paid, which is 75%.",
+  "Email discovery@marsdesigns.io.",
+  "Your bank decides how long it takes to show up.",
+];
+const refundMissing = refundCopy.filter((needle) => !refund.includes(needle));
+if (refundMissing.length) {
+  throw new Error(`Refund page HTML is missing policy copy: ${refundMissing.join(", ")}`);
+}
+const refundVisible = refund.replace(/<script[\s\S]*?<\/script>/gi, "");
+const refundExcluded = ["Internal notes", "Matt approved", "xAI", "not published"];
+const refundLeaked = refundExcluded.filter((needle) => refundVisible.includes(needle));
+if (refundLeaked.length) {
+  throw new Error(`Refund page HTML contains excluded draft notes: ${refundLeaked.join(", ")}`);
 }
 
 console.log("prerender verification passed");

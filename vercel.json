@@ -13,6 +13,10 @@
     {
       "source": "/privacy-policy",
       "destination": "/privacy-policy/index.html"
+    },
+    {
+      "source": "/refund",
+      "destination": "/refund/index.html"
     }
   ],
   "headers": [

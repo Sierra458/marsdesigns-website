@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Analytics } from "@vercel/analytics/react";
 import PrivacyPage from "./PrivacyPage";
+import RefundPage from "./RefundPage";
 import { faqs, FREE_AUDIT_LABEL, INTEREST_AUDIT, INTEREST_TALK } from "./structuredData";
 
 const ACCENT = "#E8491C";
@@ -93,7 +94,7 @@ export default function App({ url }) {
   const path = getPath(url);
   return (
     <>
-      {path === "/privacy" || path === "/privacy-policy" ? <PrivacyPage /> : <HomePage />}
+      {path === "/privacy" || path === "/privacy-policy" ? <PrivacyPage /> : path === "/refund" ? <RefundPage /> : <HomePage />}
       <Analytics />
     </>
   );
@@ -637,7 +638,7 @@ function HomePage() {
       <footer style={{ padding: "40px 24px", borderTop: `1px solid ${ACCENT}10` }}>
         <div className="footer-bar">
           <Logo size={14} />
-          <div style={{ fontSize: 11, color: DIM, letterSpacing: 2 }}>&copy; 2026 MARS Designs LLC &nbsp;|&nbsp; <a href="/privacy" style={{ color: "#555" }}>Privacy Policy</a></div>
+          <div style={{ fontSize: 11, color: DIM, letterSpacing: 2 }}>&copy; 2026 MARS Designs LLC &nbsp;|&nbsp; <a href="/privacy" style={{ color: "#555" }}>Privacy Policy</a> &nbsp;|&nbsp; <a href="/refund" style={{ color: "#555" }}>Refund Policy</a></div>
           <div style={{ fontSize: 11, color: DIM, letterSpacing: 2 }}>AI that works for your business.</div>
         </div>
       </footer>
