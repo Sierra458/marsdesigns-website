@@ -1,0 +1,2 @@
+# Fake canary from the first revision of .github/workflows/gitleaks.yml. Not a credential.
+408a663b47a0921170fcf0ce07347a18b86a06c3:.github/workflows/gitleaks.yml:xai-key:13

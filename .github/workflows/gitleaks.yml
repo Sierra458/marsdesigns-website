@@ -10,7 +10,11 @@ jobs:
       - name: Install gitleaks
         run: curl -sSL https://github.com/gitleaks/gitleaks/releases/download/v8.21.2/gitleaks_8.21.2_linux_x64.tar.gz | tar xz gitleaks
       - name: Canary self-test
-        run: mkdir -p /tmp/c && echo "k=xai-FAKEFAKEFAKEFAKEFAKEFAKE00" > /tmp/c/x && ! ./gitleaks dir /tmp/c --redact --no-banner -c .gitleaks.toml
+        run: |
+          mkdir -p /tmp/c
+          # Assembled at runtime so the workflow source does not contain an xai- key.
+          printf 'k=%s%s\n' 'xai-' 'FAKEFAKEFAKEFAKEFAKEFAKE00' > /tmp/c/x
+          ! ./gitleaks dir /tmp/c --redact --no-banner -c .gitleaks.toml
       - name: Scan git history (redacted)
         run: ./gitleaks git . --redact --no-banner -c .gitleaks.toml -v
       - uses: actions/setup-node@v4

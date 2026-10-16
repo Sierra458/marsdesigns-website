@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """copy-guard: scan built HTML (incl. JSON-LD/meta) + api/_voice-instructions* for banned Mars copy.
-Usage: copy-guard.py DIR [DIR...]  Allowlist: .copy-guard-allow (lines 'path-glob::rule_id', Matt-reviewed)."""
+Usage: copy-guard.py PATH [PATH...]  Allowlist: .copy-guard-allow (lines 'path-glob::rule_id', Matt-reviewed)."""
 import sys, re, pathlib, fnmatch
 RULES = {
  "xai-partner": r"xAI partner|partnership with xAI|official xAI",
@@ -15,7 +15,10 @@ p = pathlib.Path(".copy-guard-allow")
 if p.exists(): allow = [l.split("::") for l in p.read_text().splitlines() if "::" in l and not l.startswith("#")]
 hits = 0
 for root in sys.argv[1:]:
-  for f in pathlib.Path(root).rglob("*"):
+  # A file argument (api/_voice-instructions*) must be scanned; rglob only walks directories.
+  path = pathlib.Path(root)
+  candidates = [path] if path.is_file() else path.rglob("*")
+  for f in candidates:
     if not f.is_file() or not (f.suffix in {".html",".json",".txt",".md",".ts",".js"} or "_voice-instructions" in f.name): continue
     for n, line in enumerate(f.read_text(errors="ignore").splitlines(), 1):
       for rid, rx in RULES.items():

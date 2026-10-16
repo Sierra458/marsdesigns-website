@@ -13,5 +13,7 @@ jobs:
         run: |
           mkdir -p /tmp/fx && for s in "an official xAI partner" "Matt Webb invented and named Grok Bots" "built on ChatGPT" "Copilot costs \$19" "Matt's kids love it"; do
             echo "<p>$s</p>" > /tmp/fx/a.html; ! python3 scripts/copy-guard.py /tmp/fx || exit 1; done
+          echo "<p>an official xAI partner</p>" > /tmp/fx/a.html
+          ! python3 scripts/copy-guard.py /tmp/fx/a.html || exit 1
       - name: Scan built HTML (JSON-LD and meta) and voice instructions
         run: python3 scripts/copy-guard.py dist api/_voice-instructions*
