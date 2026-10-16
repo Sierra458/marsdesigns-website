@@ -267,7 +267,7 @@ if (!privacy.includes("PRIVACY POLICY") || !privacy.includes("Texas")) {
 const refund = fs.readFileSync(path.join(distDir, "refund", "index.html"), "utf8");
 const refundCopy = [
   "Refund Policy",
-  "Last updated: [date of publishing]",
+  "Last updated: October 16, 2026",
   "30 days of your purchase date",
   "You get back 9/12 of what you paid, which is 75%.",
   "Email discovery@marsdesigns.io.",

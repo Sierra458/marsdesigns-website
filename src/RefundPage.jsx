@@ -53,7 +53,7 @@ export default function RefundPage() {
         <h1 style={{ fontFamily: "'Orbitron', sans-serif", fontSize: 28, fontWeight: 700, color: "#fff", letterSpacing: 2, marginBottom: 6 }}>
           Refund Policy
         </h1>
-        <p style={{ fontSize: 12, color: MUTED, letterSpacing: 2, marginBottom: 36 }}>Last updated: [date of publishing]</p>
+        <p style={{ fontSize: 12, color: MUTED, letterSpacing: 2, marginBottom: 36 }}>Last updated: October 16, 2026</p>
         <p style={body}>We want you to feel good about buying an Agentic AI Academy course. If it isn't right for you, here's how refunds work.</p>
 
         <Heading>30 days to ask</Heading>
