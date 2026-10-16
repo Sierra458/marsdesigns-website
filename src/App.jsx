@@ -14,7 +14,7 @@ const DIM = "#444444";
 
 const sections = ["home", "about", "services", "investment", "process", "faq", "contact"];
 
-const emptyForm = { name: "", email: "", business: "", interest: "", message: "" };
+const emptyForm = { name: "", email: "", phone: "", business: "", interest: "", message: "" };
 
 function FadeIn({ children, delay = 0, style = {} }) {
   // Always paint content so prerendered HTML stays crawler-visible.
@@ -125,8 +125,11 @@ function HomePage() {
       setFormError("Please fill in your name, a valid email, and a message.");
       return;
     }
+    const phone = formState.phone.trim();
+    const phoneLine = phone ? `Phone: ${phone}` : "Phone: not provided";
     const requestLine = interest ? `Request: ${interest}` : "";
-    const submittedMessage = requestLine ? `${requestLine}\n\n${message.trim()}` : message.trim();
+    // The Apps Script notification prints `message` as the MESSAGE block and has no Phone line of its own.
+    const submittedMessage = [phoneLine, requestLine, message.trim()].filter(Boolean).join("\n\n");
     setFormStatus("sending");
     try {
       await fetch("https://script.google.com/macros/s/AKfycbz1e5IAnDolYSir-fyuNSHkROJYDQc5UbVu152Pj6rPmVzf069RssfFvnM9pUkN_Wqi/exec", {
@@ -134,6 +137,8 @@ function HomePage() {
         body: JSON.stringify({
           name: name.trim(),
           email: email.trim(),
+          phone,
+          phoneLine,
           business: formState.business.trim(),
           interest,
           message: submittedMessage,
@@ -584,7 +589,10 @@ function HomePage() {
           <form onSubmit={handleSubmit}>
             <div className="form-row">
               <input className="field" placeholder="Your name" aria-label="Your name" value={formState.name} onChange={(e) => setFormState({ ...formState, name: e.target.value })} />
-              <input className="field" placeholder="Email address" aria-label="Email address" value={formState.email} onChange={(e) => setFormState({ ...formState, email: e.target.value })} />
+              <div className="form-stack">
+                <input className="field" placeholder="Email address" aria-label="Email address" value={formState.email} onChange={(e) => setFormState({ ...formState, email: e.target.value })} />
+                <input className="field" type="tel" name="phone" autoComplete="tel" placeholder="Phone (optional)" aria-label="Phone (optional)" value={formState.phone} onChange={(e) => setFormState({ ...formState, phone: e.target.value })} />
+              </div>
             </div>
             <input className="field" placeholder="Business name" aria-label="Business name" value={formState.business} onChange={(e) => setFormState({ ...formState, business: e.target.value })} style={{ marginBottom: 16 }} />
             <label className="field-label" htmlFor="interest">What do you want?</label>
