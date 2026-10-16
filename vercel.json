@@ -6,7 +6,28 @@
   "trailingSlash": false,
   "cleanUrls": true,
   "rewrites": [
-    { "source": "/privacy", "destination": "/privacy/index.html" },
-    { "source": "/privacy-policy", "destination": "/privacy-policy/index.html" }
+    {
+      "source": "/privacy",
+      "destination": "/privacy/index.html"
+    },
+    {
+      "source": "/privacy-policy",
+      "destination": "/privacy-policy/index.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Permissions-Policy",
+          "value": "microphone=(self), camera=(), geolocation=()"
+        },
+        {
+          "key": "Content-Security-Policy",
+          "value": "connect-src 'self' wss://api.x.ai https://api.x.ai https://*.vercel-insights.com https://va.vercel-scripts.com"
+        }
+      ]
+    }
   ]
 }
