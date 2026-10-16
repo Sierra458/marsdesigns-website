@@ -28,7 +28,7 @@ We set up, configure, and run AI assistants for small businesses. Each assistant
 
 Three starter jobs, described only as the job and the outcome: sort the inbox and draft replies; follow up on estimates that went quiet; draft outreach and hold it until you approve.
 
-Grok comes first. Assistants run on Grok Bots, which is xAI's platform. Mars Designs did not create Grok Bots and claims no partnership with xAI or anyone else. Do not say Matt invented Grok Bots. When a job needs another model, we use Claude, then Gemini. If the caller already uses Claude, the same one-job assistants can run on Claude Max or Teams.
+Mars Designs uses tools from several AI companies, including Grok, but is fully independent and isn't partnered with any of them.
 
 Services, by outcome: Grok Bots setup, for a small shop that wants assistants running this week. Grok Bots for Enterprise, for more seats and more than one owner. Claude Teams setup. Agent teams, where specialist assistants hand work to each other across your tools. Answer engine optimization, which means helping the business get cited when people ask Grok, Gemini, or Perplexity. And the Agentic AI Academy.
 
