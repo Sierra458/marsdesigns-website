@@ -125,7 +125,7 @@ function HomePage() {
       setFormError("Please fill in your name, a valid email, and a message.");
       return;
     }
-    const phone = formState.phone.trim();
+    const phone = formState.phone.trim().slice(0, 30);
     const phoneLine = phone ? `Phone: ${phone}` : "Phone: not provided";
     const requestLine = interest ? `Request: ${interest}` : "";
     // The Apps Script notification prints `message` as the MESSAGE block and has no Phone line of its own.
@@ -591,7 +591,7 @@ function HomePage() {
               <input className="field" placeholder="Your name" aria-label="Your name" value={formState.name} onChange={(e) => setFormState({ ...formState, name: e.target.value })} />
               <div className="form-stack">
                 <input className="field" placeholder="Email address" aria-label="Email address" value={formState.email} onChange={(e) => setFormState({ ...formState, email: e.target.value })} />
-                <input className="field" type="tel" name="phone" autoComplete="tel" placeholder="Phone (optional)" aria-label="Phone (optional)" value={formState.phone} onChange={(e) => setFormState({ ...formState, phone: e.target.value })} />
+                <input className="field" type="tel" name="phone" autoComplete="tel" maxLength={30} placeholder="Phone (optional)" aria-label="Phone (optional)" value={formState.phone} onChange={(e) => setFormState({ ...formState, phone: e.target.value })} />
               </div>
             </div>
             <input className="field" placeholder="Business name" aria-label="Business name" value={formState.business} onChange={(e) => setFormState({ ...formState, business: e.target.value })} style={{ marginBottom: 16 }} />
