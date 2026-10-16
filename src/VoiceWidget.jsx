@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 
 const RATE = 24000
 const ORANGE = '#E8491C'
-const GREETING_LINE = "Hi, I'm an AI assistant for Mars Designs — how can I help?"
+const GREETING_LINE = "Hi, I'm Ara from Mars Designs. How can I help you?"
 
 function b64FromInt16(int16) {
   const bytes = new Uint8Array(int16.buffer)
@@ -82,7 +82,7 @@ export default function VoiceWidget() {
       clearTimeout(s.greetTimer)
       s.ws.send(JSON.stringify({
         type: 'response.create',
-        response: { instructions: `Say exactly this one sentence and then stop: ${GREETING_LINE}` },
+        response: { instructions: `Say exactly this and then stop: ${GREETING_LINE}` },
       }))
       connectMic()
     }
