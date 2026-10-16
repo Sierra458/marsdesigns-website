@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 
 const RATE = 24000
 const ORANGE = '#E8491C'
+const GREETING_LINE = "Hi, I'm an AI assistant for Mars Designs — how can I help?"
 
 function b64FromInt16(int16) {
   const bytes = new Uint8Array(int16.buffer)
@@ -14,6 +15,10 @@ function int16FromB64(b64) {
   const bytes = new Uint8Array(bin.length)
   for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i)
   return new Int16Array(bytes.buffer)
+}
+
+function stopTracks(stream) {
+  try { stream && stream.getTracks().forEach((t) => t.stop()) } catch {}
 }
 
 const Wave = () => (
@@ -29,11 +34,12 @@ export default function VoiceWidget() {
 
   const stop = (msg) => {
     const s = r.current
+    r.current = {}
     try { s.ws && s.ws.close() } catch {}
-    try { s.stream && s.stream.getTracks().forEach((t) => t.stop()) } catch {}
+    stopTracks(s.stream)
     try { s.ctx && s.ctx.close() } catch {}
     clearTimeout(s.timer)
-    r.current = {}
+    clearTimeout(s.greetTimer)
     setStatus(msg ? 'error' : 'idle')
     setErr(msg || '')
   }
@@ -42,36 +48,82 @@ export default function VoiceWidget() {
   const start = async () => {
     setErr('')
     setStatus('connecting')
+    // Create the audio graph inside the click so playback is allowed before the awaits.
+    const ctx = new (window.AudioContext || window.webkitAudioContext)({ sampleRate: RATE })
+    ctx.resume().catch(() => {})
+    const s = (r.current = { ctx, playAt: 0, sources: new Set(), greeted: false })
+    const tokenPromise = fetch('/api/voice-token', { method: 'POST' })
+    const micPromise = navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true, noiseSuppression: true } })
+
+    const connectMic = () => {
+      if (r.current !== s || s.proc || !s.greeted || !s.stream || !s.ws || s.ws.readyState !== 1) return
+      const src = ctx.createMediaStreamSource(s.stream)
+      const proc = ctx.createScriptProcessor(4096, 1, 1)
+      s.proc = proc
+      proc.onaudioprocess = (e) => {
+        if (r.current !== s || !s.greeted || s.ws.readyState !== 1) return
+        const f = e.inputBuffer.getChannelData(0)
+        const out = new Int16Array(f.length)
+        for (let i = 0; i < f.length; i++) out[i] = Math.max(-1, Math.min(1, f[i])) * 0x7fff
+        s.ws.send(JSON.stringify({ type: 'input_audio_buffer.append', audio: b64FromInt16(out) }))
+      }
+      // ScriptProcessor only runs while connected. A silent gain keeps the mic off the speakers.
+      const mute = ctx.createGain()
+      mute.gain.value = 0
+      src.connect(proc)
+      proc.connect(mute)
+      mute.connect(ctx.destination)
+      setStatus((cur) => (cur === 'speaking' ? cur : 'listening'))
+    }
+
+    const sendGreeting = () => {
+      if (r.current !== s || s.greeted || !s.ws || s.ws.readyState !== 1) return
+      s.greeted = true
+      clearTimeout(s.greetTimer)
+      s.ws.send(JSON.stringify({
+        type: 'response.create',
+        response: { instructions: `Say exactly this one sentence and then stop: ${GREETING_LINE}` },
+      }))
+      connectMic()
+    }
+
+    micPromise.then(
+      (stream) => {
+        if (r.current !== s) { stopTracks(stream); return }
+        s.stream = stream
+        connectMic()
+      },
+      (e) => {
+        if (r.current !== s) return
+        stop(e && e.name === 'NotAllowedError' ? 'Microphone access is needed for voice chat.' : (e && e.message) || 'Something went wrong.')
+      },
+    )
+
     try {
-      const tr = await fetch('/api/voice-token', { method: 'POST' })
+      const tr = await tokenPromise
+      if (r.current !== s) return
       if (tr.status === 429) throw new Error('Too many calls right now. Please try again in a few minutes.')
       if (!tr.ok) throw new Error('Voice assistant is unavailable right now.')
       const { token, session, max_seconds } = await tr.json()
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true, noiseSuppression: true } })
-      const ctx = new (window.AudioContext || window.webkitAudioContext)({ sampleRate: RATE })
+      if (r.current !== s) return
+      // Open the socket as soon as the token arrives. Do not wait on the mic prompt.
       const ws = new WebSocket('wss://api.x.ai/v1/realtime?model=grok-voice-latest', [`xai-client-secret.${token}`])
-      const s = (r.current = { ws, stream, ctx, playAt: 0, sources: new Set() })
-      s.timer = setTimeout(() => stop(), (max_seconds || 600) * 1000)
+      s.ws = ws
+      s.timer = setTimeout(() => { if (r.current === s) stop() }, (max_seconds || 600) * 1000)
 
       ws.onopen = () => {
+        if (r.current !== s) { ws.close(); return }
         ws.send(JSON.stringify({ type: 'session.update', session }))
-        const src = ctx.createMediaStreamSource(stream)
-        const proc = ctx.createScriptProcessor(4096, 1, 1)
-        proc.onaudioprocess = (e) => {
-          if (ws.readyState !== 1) return
-          const f = e.inputBuffer.getChannelData(0)
-          const out = new Int16Array(f.length)
-          for (let i = 0; i < f.length; i++) out[i] = Math.max(-1, Math.min(1, f[i])) * 0x7fff
-          ws.send(JSON.stringify({ type: 'input_audio_buffer.append', audio: b64FromInt16(out) }))
-        }
-        src.connect(proc)
-        proc.connect(ctx.destination)
-        setStatus('listening')
+        // Safety net only. The greeting itself waits for session.updated so Ara's voice is already set.
+        s.greetTimer = setTimeout(() => sendGreeting(), 8000)
       }
       ws.onmessage = (ev) => {
+        if (r.current !== s) return
         let m
         try { m = JSON.parse(ev.data) } catch { return }
-        if (m.type === 'response.output_audio.delta' && m.delta) {
+        if (m.type === 'session.updated') {
+          sendGreeting()
+        } else if (m.type === 'response.output_audio.delta' && m.delta) {
           const pcm = int16FromB64(m.delta)
           const buf = ctx.createBuffer(1, pcm.length, RATE)
           const ch = buf.getChannelData(0)
@@ -85,11 +137,11 @@ export default function VoiceWidget() {
           s.sources.add(node)
           node.onended = () => {
             s.sources.delete(node)
-            if (!s.sources.size) setStatus('listening')
+            if (r.current === s && !s.sources.size) setStatus('listening')
           }
           setStatus('speaking')
         } else if (m.type === 'input_audio_buffer.speech_started') {
-          s.sources.forEach((n) => { try { n.stop() } catch {} }) // barge-in
+          s.sources.forEach((n) => { try { n.stop() } catch {} })
           s.sources.clear()
           s.playAt = 0
           setStatus('listening')
@@ -97,10 +149,11 @@ export default function VoiceWidget() {
           console.warn('voice error', m.error && m.error.message)
         }
       }
-      ws.onerror = () => stop('Connection problem. Please try again.')
+      ws.onerror = () => { if (r.current === s) stop('Connection problem. Please try again.') }
       ws.onclose = () => { if (r.current.ws === ws) stop() }
     } catch (e) {
-      stop(e && e.name === 'NotAllowedError' ? 'Microphone access is needed for voice chat.' : (e && e.message) || 'Something went wrong.')
+      if (r.current !== s) return
+      stop((e && e.message) || 'Something went wrong.')
     }
   }
 
