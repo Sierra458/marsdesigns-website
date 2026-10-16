@@ -1,23 +1,85 @@
 name: gitleaks
 on: { pull_request: {}, push: { branches: [main] } }
 permissions: { contents: read }
+env:
+  GITLEAKS_VERSION: "8.21.2"
+  GITLEAKS_SHA256: "5bc41815076e6ed6ef8fbecc9d9b75bcae31f39029ceb55da08086315316e3ba"
 jobs:
   gitleaks:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
         with: { fetch-depth: 0 }
+      - name: Notice guard-config changes
+        run: scripts/guard-config-notice.sh "${{ github.event_name == 'pull_request' && github.event.pull_request.base.sha || github.event.before }}"
+      - name: Reject committed dotenv files
+        run: |
+          python3 - <<'PY'
+          import subprocess, sys
+          files = subprocess.check_output(["git", "ls-files", "-z"]).split(b"\0")
+          bad = []
+          for raw in files:
+              if not raw:
+                  continue
+              path = raw.decode()
+              name = path.rsplit("/", 1)[-1]
+              if name == ".env" or (name.startswith(".env.") and name != ".env.example"):
+                  bad.append(path)
+          if bad:
+              print("Committed .env files are not allowed other than .env.example:")
+              print("\n".join(bad))
+              sys.exit(1)
+          print("No committed .env files other than .env.example")
+          PY
       - name: Install gitleaks
-        run: curl -sSL https://github.com/gitleaks/gitleaks/releases/download/v8.21.2/gitleaks_8.21.2_linux_x64.tar.gz | tar xz gitleaks
+        run: |
+          archive="gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz"
+          curl -fsSL -o "$archive" "https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}/${archive}"
+          echo "${GITLEAKS_SHA256}  ${archive}" | sha256sum -c -
+          tar -xzf "$archive" gitleaks
+          rm -f "$archive"
       - name: Canary self-test
         run: |
-          mkdir -p /tmp/c
-          # Assembled at runtime so the workflow source does not contain an xai- key.
+          set -euo pipefail
+          mkdir -p /tmp/c /tmp/env-bad /tmp/env-ok
           printf 'k=%s%s\n' 'xai-' 'FAKEFAKEFAKEFAKEFAKEFAKE00' > /tmp/c/x
-          ! ./gitleaks dir /tmp/c --redact --no-banner -c .gitleaks.toml
+          printf '%s="%s"\n' 'password' 'fakequotedpass' > /tmp/c/p
+          printf '%s=%s%s\n' 'PASSWORD' 's3cr3t' 'Value99' > /tmp/env-bad/.env
+          printf '%s=%s\n' 'PASSWORD' 'changeme' > /tmp/env-ok/.env
+          scan() {
+            local dir="$1" out="$2"
+            set +e
+            ./gitleaks dir "$dir" --redact --no-banner --exit-code 99 -v -c .gitleaks.toml > "$out" 2>&1
+            local code=$?
+            set -e
+            printf '%s\n' "$code"
+          }
+          code=$(scan /tmp/c /tmp/c/out)
+          if [ "$code" -ne 99 ]; then
+            echo "quoted canary exit ${code}, want 99"
+            exit 1
+          fi
+          grep -q 'xai-key' /tmp/c/out
+          grep -q 'password-line' /tmp/c/out
+          code=$(scan /tmp/env-bad /tmp/env-bad/out)
+          if [ "$code" -ne 99 ]; then
+            echo "env secret fixture exit ${code}, want 99"
+            exit 1
+          fi
+          grep -q 'env-secret-assignment' /tmp/env-bad/out
+          code=$(scan /tmp/env-ok /tmp/env-ok/out)
+          if [ "$code" -ne 0 ]; then
+            echo "changeme fixture exit ${code}, want 0"
+            exit 1
+          fi
+          if grep -q 'env-secret-assignment' /tmp/env-ok/out; then
+            echo "PASSWORD=changeme was flagged"
+            exit 1
+          fi
+          echo "gitleaks canaries ok"
       - name: Scan git history (redacted)
         run: ./gitleaks git . --redact --no-banner -c .gitleaks.toml -v
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with: { node-version: 20, cache: npm }
       - run: npm ci && npm run build
       - name: Scan built dist (redacted)

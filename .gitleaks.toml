@@ -12,4 +12,18 @@ id = "supabase-key"
 regex = '''sb_(secret|publishable)_[A-Za-z0-9_-]{16,}'''
 [[rules]]
 id = "password-line"
-regex = '''(?im)^\s*password\s*[:=]\s*\S{4,}'''
+regex = '''(?im)^\s*password\s*[:=]\s*["'][^"'\s]{4,}["']'''
+[[rules]]
+id = "env-secret-assignment"
+description = "Unquoted PASSWORD, PASS, or SECRET in dotenv and ini files"
+regex = '''(?im)^\s*(?:PASSWORD|PASS|SECRET)\s*[:=]\s*[^"'#\s]{4,}'''
+path = '''(?:^|[/\\])(?:\.env(?:\.[^/\\]*)?|[^/\\]*\.env|[^/\\]+\.ini)$'''
+[[rules.allowlists]]
+regexTarget = "line"
+regexes = [
+  '''(?i)(?:PASSWORD|PASS|SECRET)\s*[:=]\s*changeme\b''',
+  '''(?i)(?:PASSWORD|PASS|SECRET)\s*[:=]\s*xxx\b''',
+  '''(?i)(?:PASSWORD|PASS|SECRET)\s*[:=]\s*your_\S*''',
+  '''(?i)(?:PASSWORD|PASS|SECRET)\s*[:=]\s*<[^>\s]*>''',
+  '''(?i)(?:PASSWORD|PASS|SECRET)\s*[:=]\s*\$\{[^}\s]*\}''',
+]

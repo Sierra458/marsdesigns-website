@@ -5,15 +5,14 @@ jobs:
   copy-guard:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with: { fetch-depth: 0 }
+      - name: Notice guard-config changes
+        run: scripts/guard-config-notice.sh "${{ github.event_name == 'pull_request' && github.event.pull_request.base.sha || github.event.before }}"
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with: { node-version: 20, cache: npm }
       - run: npm ci && npm run build
-      - name: Fixture self-test (each banned phrase must fail)
-        run: |
-          mkdir -p /tmp/fx && for s in "an official xAI partner" "Matt Webb invented and named Grok Bots" "built on ChatGPT" "Copilot costs \$19" "Matt's kids love it"; do
-            echo "<p>$s</p>" > /tmp/fx/a.html; ! python3 scripts/copy-guard.py /tmp/fx || exit 1; done
-          echo "<p>an official xAI partner</p>" > /tmp/fx/a.html
-          ! python3 scripts/copy-guard.py /tmp/fx/a.html || exit 1
+      - name: Fixture self-test
+        run: python3 scripts/copy-guard.py --self-test
       - name: Scan built HTML (JSON-LD and meta) and voice instructions
         run: python3 scripts/copy-guard.py dist api/_voice-instructions*
