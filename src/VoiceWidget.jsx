@@ -30,7 +30,44 @@ const Wave = () => (
 export default function VoiceWidget() {
   const [status, setStatus] = useState('idle') // idle|connecting|listening|speaking|error
   const [err, setErr] = useState('')
+  const [submitInView, setSubmitInView] = useState(false)
   const r = useRef({})
+
+  useEffect(() => {
+    if (typeof IntersectionObserver === 'undefined') return
+    let observer
+    let narrow
+    let onChange
+    let mutations
+    const watch = (submit) => {
+      narrow = window.matchMedia('(max-width: 800px)')
+      let inView = false
+      const sync = () => setSubmitInView(narrow.matches && inView)
+      onChange = () => sync()
+      observer = new IntersectionObserver(([entry]) => {
+        inView = Boolean(entry && entry.isIntersecting)
+        sync()
+      }, { threshold: 0.2 })
+      observer.observe(submit)
+      narrow.addEventListener('change', onChange)
+    }
+    const existing = document.querySelector('#contact button[type="submit"]')
+    if (existing) watch(existing)
+    else {
+      mutations = new MutationObserver(() => {
+        const submit = document.querySelector('#contact button[type="submit"]')
+        if (!submit) return
+        mutations.disconnect()
+        watch(submit)
+      })
+      mutations.observe(document.body, { childList: true, subtree: true })
+    }
+    return () => {
+      if (mutations) mutations.disconnect()
+      if (observer) observer.disconnect()
+      if (narrow && onChange) narrow.removeEventListener('change', onChange)
+    }
+  }, [])
 
   const stop = (msg) => {
     const s = r.current
@@ -216,9 +253,12 @@ export default function VoiceWidget() {
 
   const active = status === 'connecting' || status === 'listening' || status === 'speaking'
   const label = { connecting: 'Connecting…', listening: 'Listening…', speaking: 'Speaking…' }[status]
+  // On a phone, the fixed button sits on the full-width contact submit control. Hide it then.
+  // An in-progress call moves to the top corner so End call stays reachable.
+  const tucked = submitInView && !active
 
   return (
-    <div style={{ position: 'fixed', right: 20, bottom: 20, zIndex: 9999, display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 8, fontFamily: 'inherit' }}>
+    <div style={{ position: 'fixed', right: 20, bottom: submitInView && active ? 'auto' : 20, top: submitInView && active ? 16 : 'auto', zIndex: 9999, display: tucked ? 'none' : 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 8, fontFamily: 'inherit' }}>
       {(active || err) && (
         <div role="status" aria-live="polite" style={{ background: '#111', color: '#fff', borderRadius: 12, padding: '10px 14px', maxWidth: 260, fontSize: 14, boxShadow: '0 6px 24px rgba(0,0,0,.35)' }}>
           <div style={{ fontWeight: 600 }}>{err || label}</div>
