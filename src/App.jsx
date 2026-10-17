@@ -283,7 +283,7 @@ function HomePage() {
             <h1 className="hero-title">AI ASSISTANTS<br /><span className="hero-accent">FOR ONE JOB EACH</span></h1>
           </FadeIn>
           <FadeIn delay={0.3}>
-            <p className="hero-lead">Mars Designs sets up, configures, and runs AI assistants built on Grok Bots from xAI. Each one takes one back-office job — your inbox sorted and drafted, dead estimates followed up, or outreach drafted for your approval — and waits until you approve.</p>
+            <p className="hero-lead">Mars Designs sets up, configures, and runs AI assistants built on Grok Bots. Each one takes one back-office job — your inbox sorted and drafted, dead estimates followed up, or outreach drafted for your approval — and waits until you approve.</p>
           </FadeIn>
           <FadeIn delay={0.45}>
             <div className="cta-row">

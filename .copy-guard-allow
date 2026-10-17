@@ -1,0 +1,4 @@
+# path :: rule :: sha256 of the normalized line :: reason
+# Normalized line: strip, then collapse whitespace to one space. No wildcards.
+# Matt reviews every line.
+api/_voice-instructions.js :: other-vendor :: cb5c082a9681e5073ab056fa7bc6ddaee04316e5bbbef313034dc30e874a861c :: Matt approved 2026-10-16

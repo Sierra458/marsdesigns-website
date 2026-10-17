@@ -11,7 +11,7 @@ export const faqs = [
   {
     question: "What is an AI assistant from Mars Designs?",
     answer:
-      "An AI assistant from Mars Designs takes one back-office job: your inbox sorted and drafted, dead estimates followed up, or outreach drafted for your approval. It prepares the work and waits for you. Mars Designs sets it up, configures it, and runs it on Grok Bots from xAI.",
+      "An AI assistant from Mars Designs takes one back-office job: your inbox sorted and drafted, dead estimates followed up, or outreach drafted for your approval. It prepares the work and waits for you. Mars Designs sets it up, configures it, and runs it on Grok Bots.",
   },
   {
     question: "What jobs can it take off my plate?",
@@ -36,7 +36,7 @@ export const faqs = [
   {
     question: "Who owns what you build?",
     answer:
-      "You do. The instructions and the setup we put together for your business belong to you. Grok Bots is the xAI platform, and we hand over the notes your team needs to keep the assistants running. You are not left inside a system only we can access.",
+      "You do. The instructions and the setup we put together for your business belong to you. Grok Bots is the platform, and we hand over the notes your team needs to keep the assistants running. You are not left inside a system only we can access.",
   },
   {
     question: "What tools do you use?",
@@ -61,7 +61,7 @@ export const structuredData = {
       url: SITE_URL,
       email: CONTACT_EMAIL,
       description:
-        "MARS Designs sets up, configures, and runs AI assistants for small businesses, built on Grok Bots from xAI. Each one takes a back-office job — inbox sorted and drafted, dead estimates followed up, or outreach drafted for approval — and nothing sends until the owner approves. Based in Texas. Start with a free missed-email and dead-estimate audit.",
+        "MARS Designs sets up, configures, and runs AI assistants for small businesses, built on Grok Bots. Each one takes a back-office job — inbox sorted and drafted, dead estimates followed up, or outreach drafted for approval — and nothing sends until the owner approves. Based in Texas. Start with a free missed-email and dead-estimate audit.",
       foundingDate: "2026",
       areaServed: {
         "@type": "Country",

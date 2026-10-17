@@ -14,7 +14,7 @@ const pages = [
     file: "index.html",
     title: "MARS Designs — AI That Works For Your Business",
     description:
-      "AI assistants for small businesses, set up on Grok Bots from xAI. One job each: inbox sorted and drafted, dead estimates followed up, or outreach drafted for approval. Nothing sends until you approve. Free missed-email and dead-estimate audit. Based in Texas.",
+      "AI assistants for small businesses, set up on Grok Bots. One job each: inbox sorted and drafted, dead estimates followed up, or outreach drafted for approval. Nothing sends until you approve. Free missed-email and dead-estimate audit. Based in Texas.",
     canonical: "https://marsdesigns.io/",
   },
   {
@@ -151,7 +151,7 @@ const required = [
   "HOW IT WORKS",
   "Short explainers: how an inbox assistant sorts, drafts, and waits for your Approve.",
   "What is an AI assistant from Mars Designs?",
-  "Mars Designs sets it up, configures it, and runs it on Grok Bots from xAI.",
+  "Mars Designs sets it up, configures it, and runs it on Grok Bots.",
   "Grok Bots setup",
   "Grok Bots for Enterprise setup",
   "AI ASSISTANTS",
@@ -234,11 +234,8 @@ for (const price of allowedAcademyPrices) {
 if (homepageWithoutAcademyPrices.includes("$")) {
   throw new Error("Homepage HTML still contains a non-Academy dollar sign");
 }
-const xaiPhrase = "Grok Bots from xAI";
-const xaiHits = homepage.split(xaiPhrase).length - 1;
-// meta description, hero, visible FAQ answer, FAQPage JSON-LD answer, organization description
-if (xaiHits !== 5) {
-  throw new Error(`Homepage must contain "${xaiPhrase}" exactly 5 times (found ${xaiHits})`);
+if (homepage.includes("xAI")) {
+  throw new Error("Homepage must not mention xAI");
 }
 if (/property="og:description" content="[^"]*from xAI/.test(homepage)) {
   throw new Error("Open Graph description must not repeat from xAI");

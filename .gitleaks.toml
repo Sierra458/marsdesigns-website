@@ -1,0 +1,30 @@
+title = "Matt fleet gitleaks rules"
+[extend]
+useDefault = true
+[[rules]]
+id = "stripe-key"
+regex = '''(sk|rk)_(live|test)_[A-Za-z0-9]{16,}'''
+[[rules]]
+id = "xai-key"
+regex = '''xai-[A-Za-z0-9]{20,}'''
+[[rules]]
+id = "supabase-key"
+regex = '''sb_(secret|publishable)_[A-Za-z0-9_-]{16,}'''
+[[rules]]
+id = "password-line"
+regex = '''(?im)(?:^\s*(?:(?:export\s+)?(?:const|let|var)\s+)?password\s*[:=]\s*["'][^"'\s]{4,}["']|["']password["']\s*:\s*["'][^"'\s]{4,}["'])'''
+[[rules]]
+id = "env-unquoted-secret"
+description = "Unquoted PASSWORD, PASS, or SECRET assignment in env or ini files"
+regex = '''(?im)^\s*(?:export\s+)?\w*(?:PASSWORD|PASS|SECRET)\w*\s*[:=]\s*[^"'<\s$]\S*'''
+path = '''(?i)(?:^|/)(?:\.env(?:\..*)?|[^/]+\.env|[^/]+\.ini)$'''
+[[rules.allowlists]]
+description = "Placeholders, not live values"
+regexTarget = "line"
+regexes = [
+  '''(?i)[:=]\s*changeme\s*(?:#.*)?$''',
+  '''(?i)[:=]\s*xxx\s*(?:#.*)?$''',
+  '''(?i)[:=]\s*your_\S+''',
+  '''[:=]\s*<[^>\s]+>''',
+  '''[:=]\s*\$\{[^}]+\}''',
+]
